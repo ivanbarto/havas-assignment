@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="margin_horizontal_authentication_form">40dp</dimen>
+    <dimen name="margin_top_authentication_logo">50dp</dimen>
+    <dimen name="margin_top_til_authentication">30dp</dimen>
+    <dimen name="button_progress_indicator_size">20dp</dimen>
+    <dimen name="text_size_20">20sp</dimen>
+    <dimen name="primary_button_content_margin">10dp</dimen>
+    <dimen name="margin_10">10dp</dimen>
+    <dimen name="margin_48dp">48dp</dimen>
+    <dimen name="margin_16dp">16dp</dimen>
+    <dimen name="margin_20dp">20dp</dimen>
+    <dimen name="elevation_10dp">10dp</dimen>
+    <dimen name="margin_10dp">10dp</dimen>
+    <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="image_stroke_width">3dp</dimen>
+    <dimen name="margin_5dp">5dp</dimen>
+    <dimen name="margin_48p">48dp</dimen>
+</resources>
