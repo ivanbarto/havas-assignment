@@ -8,6 +8,9 @@ object RepositoriesConstants {
 
     private const val MAX_ITEMS_AVAILABLE = 1000
 
+    const val DATABASE_NAME = "repositoriesDatabase"
+    const val DATABASE_REPOSITORY_TABLE_NAME = "repositories"
+
     fun maxPagesAvailable() : Long {
         return (MAX_ITEMS_AVAILABLE / ITEMS_PER_PAGE).toLong()
     }

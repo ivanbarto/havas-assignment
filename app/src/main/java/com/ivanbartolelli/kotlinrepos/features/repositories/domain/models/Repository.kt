@@ -2,6 +2,7 @@ package com.ivanbartolelli.kotlinrepos.features.repositories.domain.models
 
 import android.net.Uri
 import android.os.Parcelable
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.RepositoryEntity
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoryDTO
 import kotlinx.parcelize.Parcelize
 
@@ -29,5 +30,5 @@ data class Repository(
 }
 
 
-fun RepositoryDTO.toRepository(): Repository =
+fun RepositoryEntity.toRepository(): Repository =
     Repository(id, name, description, sshUrl, gitUrl, updatedAt, createdAt, watchersCount, owner?.toOwner())
