@@ -8,8 +8,11 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="colorPrimary">#4AE89A</color>
-    <color name="colorPrimaryVariant">#329C68</color>
+    <color name="colorPrimary">#FF5722</color>
+    <color name="colorPrimaryVariant">#6A3DE8</color>
+
+    <color name="splash_gradient_start">#6F84F8</color>
+    <color name="splash_gradient_end">@color/colorPrimaryVariant</color>
 
     <color name="transparent">#00FFFFFF</color>
     <color name="url_container">#CFCFCF</color>

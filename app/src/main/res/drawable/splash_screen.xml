@@ -5,5 +5,5 @@
         android:width="70dp"
         android:height="70dp"
         android:gravity="center"
-        android:drawable="@drawable/app_logo"/>
+        android:drawable="@drawable/kotlin_icon"/>
 </layer-list>
