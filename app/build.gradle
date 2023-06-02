@@ -55,6 +55,7 @@ dependencies {
     def lifecycle_ktx_version = "2.5.1"
     def paging_version = "3.1.1"
     def coil_version = "1.4.0"
+    def room_version = "2.5.1"
 
 
     implementation 'androidx.core:core-ktx:1.9.0'
@@ -94,6 +95,11 @@ dependencies {
 
     //coil
     implementation "io.coil-kt:coil:$coil_version"
+
+    //room
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
 
 
 }

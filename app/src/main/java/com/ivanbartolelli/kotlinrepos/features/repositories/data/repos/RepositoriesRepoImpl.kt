@@ -8,8 +8,8 @@ import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.rem
 import javax.inject.Inject
 
 
-class PaginatedRepositoriesRepo @Inject constructor(private val repositoriesService: RepositoriesService)  {
-    fun getRepositories() = Pager(
+class RepositoriesRepoImpl @Inject constructor(private val repositoriesService: RepositoriesService) : RepositoriesRepo  {
+    override fun getRepositories() = Pager(
         config = PagingConfig(
             pageSize = RepositoriesConstants.ITEMS_PER_PAGE,
             prefetchDistance = RepositoriesConstants.ITEMS_PREFETCH_DISTANCE

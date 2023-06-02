@@ -5,6 +5,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.RepositoriesService
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RepositoriesQueries
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.PaginatedRepositoriesRepo
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.RepositoriesRepo
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.toRepository
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.RepositoriesAdapter
 import dagger.hilt.android.testing.HiltAndroidRule
@@ -30,7 +31,7 @@ class ReposTest {
     lateinit var repositoriesAdapter: RepositoriesAdapter
 
     @Inject
-    lateinit var paginatedRepositoriesRepo: PaginatedRepositoriesRepo
+    lateinit var paginatedRepositoriesRepo: RepositoriesRepo
 
 
     @Before
