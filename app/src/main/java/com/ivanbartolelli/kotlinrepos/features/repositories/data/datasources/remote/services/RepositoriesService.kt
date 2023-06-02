@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote
+package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services
 
 import com.ivanbartolelli.kotlinrepos.core.base_models.BaseResponse
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoryDTO

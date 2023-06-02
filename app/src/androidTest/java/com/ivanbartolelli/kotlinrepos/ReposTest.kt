@@ -1,21 +1,14 @@
 package com.ivanbartolelli.kotlinrepos
 
-import androidx.paging.LoadState
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.paging.PagingSource
-import androidx.recyclerview.widget.RecyclerView
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.RepositoriesService
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoriesConstants
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.RepositoriesService
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RepositoriesQueries
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.PaginatedRepositoriesRepo
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.toRepository
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.RepositoriesAdapter
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
-import kotlinx.coroutines.flow.collect
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
