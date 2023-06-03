@@ -1,6 +1,7 @@
 package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.reposit
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.net.UnknownHostException
 
 @AndroidEntryPoint
 class RepositoriesFragment : BaseFragment() {
@@ -57,7 +59,7 @@ class RepositoriesFragment : BaseFragment() {
                 adapter.onRepositoryClick = { navigateToDetails(it) }
 
                 adapter.addLoadStateListener { loadStates ->
-                    watchRefreshLoadState(loadStates)
+                    observeRefreshLoadState(loadStates)
                 }
             }
 
@@ -72,16 +74,28 @@ class RepositoriesFragment : BaseFragment() {
         }
     }
 
-    private fun watchRefreshLoadState(loadStates: CombinedLoadStates) {
+    private fun observeRefreshLoadState(loadStates: CombinedLoadStates) {
         binding.lySwipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
 
         if (loadStates.refresh is LoadState.Error) {
-            val message = (loadStates.refresh as? LoadState.Error)?.error?.message
 
-            customSnackbarLoader.showWarning(
-                message
-                    ?: getString(R.string.text_unknown_error)
-            )
+            val refreshState = (loadStates.refresh as? LoadState.Error)?.error
+
+            when (refreshState) {
+                is UnknownHostException -> {
+                    customSnackbarLoader.showWarning(
+                         getString(R.string.text_not_connected)
+                    )
+                }
+                else -> {
+                    customSnackbarLoader.showWarning(
+                        refreshState?.message
+                            ?: getString(R.string.text_unknown_error)
+                    )
+                }
+            }
+
+
         }
     }
 

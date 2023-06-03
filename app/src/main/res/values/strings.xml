@@ -3,6 +3,7 @@
     <string name="text_repositories">Repositories</string>
     <string name="text_by_user">By %1$s</string>
     <string name="text_unknown_error">An unknown error has happened. Please, refresh and try again.</string>
+    <string name="text_not_connected">You are not connected to internet. Offline mode on!</string>
     <string name="subtitle_http_url">HTTP url</string>
     <string name="subtitle_ssh_url">SSH url</string>
     <string name="text_view_on_github">View on GitHub</string>

@@ -21,4 +21,5 @@ data class RepositoryDTO(
     val watchersCount: Long?,
     @SerializedName("owner")
     val owner: OwnerDTO?,
+    var timestamp : Long
 )

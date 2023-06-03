@@ -46,8 +46,9 @@ class RepositoriesAdapter @Inject constructor() : PagingDataAdapter<Repository, 
             tvWatchers.text = item.watchersCount.toString()
 
             ivUser.ivContent.load(item.owner?.avatarUrl) {
-                placeholder(R.drawable.ic_user)
                 crossfade(true)
+                placeholder(R.drawable.ic_user)
+                error(R.drawable.ic_user)
             }
         }
     }

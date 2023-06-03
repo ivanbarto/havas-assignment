@@ -2,11 +2,11 @@ package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.lo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.REPOSITORY_TABLE_NAME
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.OwnerDTO
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoriesConstants.DATABASE_REPOSITORY_TABLE_NAME
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoryDTO
 
-@Entity(tableName = DATABASE_REPOSITORY_TABLE_NAME)
+@Entity(tableName = REPOSITORY_TABLE_NAME)
 data class RepositoryEntity(
 
     @PrimaryKey(autoGenerate = true)
@@ -18,7 +18,8 @@ data class RepositoryEntity(
     val updatedAt: String? = null,
     val createdAt: String? = null,
     val watchersCount: Long? = null,
-    val owner: OwnerEntity? = null
+    val owner: OwnerEntity? = null,
+    val timestamp: Long,
 )
 
 
@@ -33,5 +34,5 @@ fun OwnerDTO.toEntity(): OwnerEntity {
 }
 
 fun RepositoryDTO.toEntity(): RepositoryEntity {
-    return RepositoryEntity(id, name, description, sshUrl, gitUrl, updatedAt, createdAt, watchersCount, owner?.toEntity())
+    return RepositoryEntity(id, name, description, sshUrl, gitUrl, updatedAt, createdAt, watchersCount, owner?.toEntity(), timestamp)
 }

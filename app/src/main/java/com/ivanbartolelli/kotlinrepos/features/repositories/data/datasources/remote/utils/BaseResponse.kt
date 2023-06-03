@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.core.base_models
+package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils
 
 import com.google.gson.annotations.SerializedName
 

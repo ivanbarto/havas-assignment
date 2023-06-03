@@ -13,7 +13,10 @@ import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 
-class RepositoriesRepoImpl (private val repositoriesService: RepositoriesService, private val database: RepositoriesDatabase) : RepositoriesRepo  {
+class RepositoriesRepoImpl(
+    private val repositoriesService: RepositoriesService,
+    private val database: RepositoriesDatabase
+) : RepositoriesRepo {
     @OptIn(ExperimentalPagingApi::class)
     override fun getRepositories() = Pager(
         config = PagingConfig(
@@ -24,7 +27,7 @@ class RepositoriesRepoImpl (private val repositoriesService: RepositoriesService
             database.repositoriesDao().getRepositories()
         },
         remoteMediator = RepositoriesRemoteMediator(repositoriesService, database)
-    ).flow.map { it.map {data -> data.toRepository() } }
+    ).flow.map { it.map { data -> data.toRepository() } }
 }
 
 
