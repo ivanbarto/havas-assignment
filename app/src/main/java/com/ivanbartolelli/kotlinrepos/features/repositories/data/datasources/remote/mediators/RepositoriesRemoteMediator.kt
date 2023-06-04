@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.paginatedSources
+package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.mediators
 
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.LoadType
@@ -9,11 +9,11 @@ import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.loc
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.RepositoryEntity
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.RepositoryPagingInfoEntity
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.toEntity
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.FIRST_PAGE
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.PAGING_DECREMENT
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.PAGING_INCREMENT
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoriesConstants
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.RepositoriesService
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RemoteMediatorConstants.FIRST_PAGE
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RemoteMediatorConstants.PAGING_DECREMENT
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RemoteMediatorConstants.PAGING_INCREMENT
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RepositoriesConstants
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RepositoriesQueries
 
 @OptIn(ExperimentalPagingApi::class)

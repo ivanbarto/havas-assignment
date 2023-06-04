@@ -1,7 +1,7 @@
 package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services
 
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.BaseResponse
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoryDTO
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dtos.BaseResponseDto
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dtos.RepositoryDto
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RepositoriesUrls
 import retrofit2.http.GET
 import retrofit2.http.Query
@@ -13,6 +13,6 @@ interface RepositoriesService {
         @Query("q") language: String,
         @Query("page") page: Int,
         @Query("per_page") itemsPerPage: Int
-    ): BaseResponse<RepositoryDTO>
+    ): BaseResponseDto<RepositoryDto>
 
 }

@@ -2,9 +2,9 @@ package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.lo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.REPOSITORY_TABLE_NAME
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.OwnerDTO
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoryDTO
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.DatabaseConstants.REPOSITORY_TABLE_NAME
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dtos.OwnerDto
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dtos.RepositoryDto
 
 @Entity(tableName = REPOSITORY_TABLE_NAME)
 data class RepositoryEntity(
@@ -29,10 +29,10 @@ data class OwnerEntity(
     val profileUrl: String?
 )
 
-fun OwnerDTO.toEntity(): OwnerEntity {
+fun OwnerDto.toEntity(): OwnerEntity {
     return OwnerEntity(userName, avatarUrl, profileUrl)
 }
 
-fun RepositoryDTO.toEntity(): RepositoryEntity {
+fun RepositoryDto.toEntity(): RepositoryEntity {
     return RepositoryEntity(id, name, description, sshUrl, gitUrl, updatedAt, createdAt, watchersCount, owner?.toEntity(), timestamp)
 }

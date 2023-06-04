@@ -9,7 +9,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
 import coil.load
 import com.ivanbartolelli.kotlinrepos.R
-import com.ivanbartolelli.kotlinrepos.core.base_ui.BaseFragment
+import com.ivanbartolelli.kotlinrepos.core.presentation.BaseFragment
 import com.ivanbartolelli.kotlinrepos.databinding.RepositoryDetailsFragmentBinding
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Repository
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.utils.DateUtils
@@ -22,7 +22,7 @@ class RepositoryDetailFragment : BaseFragment() {
 
     lateinit var repository: Repository
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return RepositoryDetailsFragmentBinding.inflate(layoutInflater, container, false).also { binding = it }.root
     }
 

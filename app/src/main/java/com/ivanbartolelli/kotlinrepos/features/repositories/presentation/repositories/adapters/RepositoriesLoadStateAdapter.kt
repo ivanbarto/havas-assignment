@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
-import com.ivanbartolelli.kotlinrepos.core.base_ui.BaseViewHolder
+import com.ivanbartolelli.kotlinrepos.core.presentation.BaseViewHolder
 import com.ivanbartolelli.kotlinrepos.databinding.RepositoryNetworkStateItemBinding
 
 class RepositoriesLoadStateAdapter(private val repositoriesAdapter: RepositoriesAdapter) : LoadStateAdapter<BaseViewHolder<LoadState>>(){

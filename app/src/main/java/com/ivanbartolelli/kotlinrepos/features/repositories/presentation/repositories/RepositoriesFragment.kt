@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.ivanbartolelli.kotlinrepos.R
-import com.ivanbartolelli.kotlinrepos.core.base_ui.BaseFragment
+import com.ivanbartolelli.kotlinrepos.core.presentation.BaseFragment
 import com.ivanbartolelli.kotlinrepos.databinding.RepositoriesFragmentBinding
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Repository
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.RepositoriesAdapter
@@ -53,6 +53,22 @@ class RepositoriesFragment : BaseFragment() {
             repositoriesAdapter.refresh()
         }
     }
+
+    private fun observeRepositories() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                repositoriesViewModel.repositories.collectLatest { pagingData ->
+                    repositoriesAdapter.submitData(pagingData)
+                }
+            }
+
+        }
+
+    }
+
 
     private fun setupRecyclerView() {
         binding.rvRepositories.apply {
@@ -103,19 +119,5 @@ class RepositoriesFragment : BaseFragment() {
         findNavController().navigate(direction)
     }
 
-    private fun observeRepositories() {
-
-        viewLifecycleOwner.lifecycleScope.launch {
-
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                repositoriesViewModel.repositories.collectLatest { pagingData ->
-                    repositoriesAdapter.submitData(pagingData)
-                }
-            }
-
-        }
-
-    }
 
 }

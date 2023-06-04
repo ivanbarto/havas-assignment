@@ -1,8 +1,8 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto
+package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dtos
 
 import com.google.gson.annotations.SerializedName
 
-data class RepositoryDTO(
+data class RepositoryDto(
     @SerializedName("id")
     val id: Long?,
     @SerializedName("full_name")
@@ -20,6 +20,6 @@ data class RepositoryDTO(
     @SerializedName("watchers_count")
     val watchersCount: Long?,
     @SerializedName("owner")
-    val owner: OwnerDTO?,
+    val owner: OwnerDto?,
     var timestamp : Long
 )

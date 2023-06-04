@@ -5,12 +5,11 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.map
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.RepositoriesDatabase
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoriesConstants
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.paginatedSources.RepositoriesRemoteMediator
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RepositoriesConstants
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.mediators.RepositoriesRemoteMediator
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.RepositoriesService
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.toRepository
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
 
 class RepositoriesRepoImpl(

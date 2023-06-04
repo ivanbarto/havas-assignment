@@ -1,8 +1,8 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils
+package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dtos
 
 import com.google.gson.annotations.SerializedName
 
-data class BaseResponse<T>(
+data class BaseResponseDto<T>(
     @SerializedName("total_count")
     val totalCount: Int,
     @SerializedName("incomplete_results")

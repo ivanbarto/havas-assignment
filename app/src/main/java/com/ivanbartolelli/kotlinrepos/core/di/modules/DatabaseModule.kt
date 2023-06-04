@@ -3,8 +3,7 @@ package com.ivanbartolelli.kotlinrepos.core.di.modules
 import android.app.Application
 import androidx.room.Room
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.RepositoriesDatabase
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.DATABASE_NAME
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoriesConstants
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.DatabaseConstants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.core.base_ui
+package com.ivanbartolelli.kotlinrepos.core.presentation
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

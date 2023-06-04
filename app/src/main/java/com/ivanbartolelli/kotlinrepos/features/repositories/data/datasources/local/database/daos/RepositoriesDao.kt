@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.RepositoryEntity
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.REPOSITORY_TABLE_NAME
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.DatabaseConstants.REPOSITORY_TABLE_NAME
 
 @Dao
 interface RepositoriesDao {

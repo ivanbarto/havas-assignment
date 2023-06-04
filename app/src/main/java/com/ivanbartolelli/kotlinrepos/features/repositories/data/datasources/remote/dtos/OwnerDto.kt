@@ -1,8 +1,8 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto
+package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dtos
 
 import com.google.gson.annotations.SerializedName
 
-data class OwnerDTO(
+data class OwnerDto(
     @SerializedName("login")
     val userName : String?,
     @SerializedName("avatar_url")

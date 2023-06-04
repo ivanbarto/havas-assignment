@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto
+package com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils
 
 object RepositoriesConstants {
     const val ITEMS_PER_PAGE = 30

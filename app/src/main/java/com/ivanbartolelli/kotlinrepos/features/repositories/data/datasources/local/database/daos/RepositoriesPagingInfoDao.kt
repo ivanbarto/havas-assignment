@@ -5,7 +5,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.RepositoryPagingInfoEntity
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.REPOSITORY_PAGING_INFO_TABLE_NAME
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.DatabaseConstants.REPOSITORY_PAGING_INFO_TABLE_NAME
 
 @Dao
 interface RepositoriesPagingInfoDao {
@@ -13,10 +13,7 @@ interface RepositoriesPagingInfoDao {
     @Query("DELETE FROM $REPOSITORY_PAGING_INFO_TABLE_NAME")
     suspend fun clearAll()
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert(repositoryPagingInfoEntity: RepositoryPagingInfoEntity)
-
-    @Query("SELECT * FROM $REPOSITORY_PAGING_INFO_TABLE_NAME WHERE id = :id ORDER BY timestamp ASC")
+    @Query("SELECT * FROM $REPOSITORY_PAGING_INFO_TABLE_NAME WHERE repositoryId = :id ORDER BY timestamp ASC")
     suspend fun get(id: Long): RepositoryPagingInfoEntity
 
     @Query("SELECT * FROM $REPOSITORY_PAGING_INFO_TABLE_NAME ORDER BY timestamp DESC LIMIT 1")

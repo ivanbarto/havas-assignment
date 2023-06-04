@@ -6,7 +6,7 @@ import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.DiffUtil
 import coil.load
 import com.ivanbartolelli.kotlinrepos.R
-import com.ivanbartolelli.kotlinrepos.core.base_ui.BaseViewHolder
+import com.ivanbartolelli.kotlinrepos.core.presentation.BaseViewHolder
 import com.ivanbartolelli.kotlinrepos.databinding.RepositoryItemBinding
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Repository
 import javax.inject.Inject

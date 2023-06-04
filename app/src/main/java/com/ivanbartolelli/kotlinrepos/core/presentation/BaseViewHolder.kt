@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.core.base_ui
+package com.ivanbartolelli.kotlinrepos.core.presentation
 
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
