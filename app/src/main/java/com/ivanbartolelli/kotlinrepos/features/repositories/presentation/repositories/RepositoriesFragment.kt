@@ -1,7 +1,6 @@
 package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,6 +47,14 @@ class RepositoriesFragment : BaseFragment() {
 
     private fun setupView() {
 
+        setupRecyclerView()
+
+        binding.lySwipeRefresh.setOnRefreshListener {
+            repositoriesAdapter.refresh()
+        }
+    }
+
+    private fun setupRecyclerView() {
         binding.rvRepositories.apply {
 
             layoutManager =
@@ -67,10 +74,6 @@ class RepositoriesFragment : BaseFragment() {
                 RepositoriesLoadStateAdapter(repositoriesAdapter),
                 RepositoriesLoadStateAdapter(repositoriesAdapter)
             )
-        }
-
-        binding.lySwipeRefresh.setOnRefreshListener {
-            repositoriesAdapter.refresh()
         }
     }
 
@@ -113,9 +116,6 @@ class RepositoriesFragment : BaseFragment() {
 
         }
 
-//        repositoriesViewModel.repositoriesConnectionExists.observe(viewLifecycleOwner) { exists ->
-//            if (exists) repositoriesAdapter.refresh()
-//        }
     }
 
 }
