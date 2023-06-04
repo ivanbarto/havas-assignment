@@ -19,6 +19,9 @@ interface RepositoriesPagingInfoDao {
     @Query("SELECT * FROM $REPOSITORY_PAGING_INFO_TABLE_NAME WHERE id = :id ORDER BY timestamp ASC")
     suspend fun get(id: Long): RepositoryPagingInfoEntity
 
+    @Query("SELECT * FROM $REPOSITORY_PAGING_INFO_TABLE_NAME ORDER BY timestamp DESC LIMIT 1")
+    suspend fun getNewest(): RepositoryPagingInfoEntity?
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertAll(repositoryPagingInfoEntities: List<RepositoryPagingInfoEntity>)
 

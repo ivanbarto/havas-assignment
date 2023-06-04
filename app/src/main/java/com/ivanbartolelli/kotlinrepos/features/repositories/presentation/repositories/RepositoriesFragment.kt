@@ -79,12 +79,10 @@ class RepositoriesFragment : BaseFragment() {
 
         if (loadStates.refresh is LoadState.Error) {
 
-            val refreshState = (loadStates.refresh as? LoadState.Error)?.error
-
-            when (refreshState) {
+            when (val refreshState = (loadStates.refresh as? LoadState.Error)?.error) {
                 is UnknownHostException -> {
                     customSnackbarLoader.showWarning(
-                         getString(R.string.text_not_connected)
+                        getString(R.string.text_not_connected)
                     )
                 }
                 else -> {
@@ -94,8 +92,6 @@ class RepositoriesFragment : BaseFragment() {
                     )
                 }
             }
-
-
         }
     }
 
@@ -114,7 +110,12 @@ class RepositoriesFragment : BaseFragment() {
                     repositoriesAdapter.submitData(pagingData)
                 }
             }
+
         }
+
+//        repositoriesViewModel.repositoriesConnectionExists.observe(viewLifecycleOwner) { exists ->
+//            if (exists) repositoriesAdapter.refresh()
+//        }
     }
 
 }

@@ -9,15 +9,12 @@ import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.loc
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.RepositoryEntity
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.RepositoryPagingInfoEntity
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.toEntity
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.FIRST_PAGE_NUMBER
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.FIRST_PAGE
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.PAGING_DECREMENT
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.PAGING_INCREMENT
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoriesConstants
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.dto.RepositoryDTO
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.RepositoriesService
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.utils.RepositoriesQueries
-import okio.IOException
-import retrofit2.HttpException
 
 @OptIn(ExperimentalPagingApi::class)
 class RepositoriesRemoteMediator(
@@ -34,13 +31,14 @@ class RepositoriesRemoteMediator(
 
             val currentPagingInfo = getCurrentPagingInfo(loadType, state, database)
 
-            val currentPageNumber: Int? = when (loadType) {
-                LoadType.REFRESH -> FIRST_PAGE_NUMBER
+            val currentPage: Int? = when (loadType) {
+                LoadType.REFRESH -> currentPagingInfo?.nextPage
+                    ?: FIRST_PAGE
                 LoadType.PREPEND -> currentPagingInfo?.previousPage
                 LoadType.APPEND -> currentPagingInfo?.nextPage
             }
 
-            currentPageNumber?.let {
+            currentPage?.let {
 
                 val repositoriesResponse = service.getRepositoriesByLanguage(
                     language = RepositoriesQueries.LANGUAGE_KOTLIN,
@@ -52,11 +50,11 @@ class RepositoriesRemoteMediator(
 
                 val endOfPaginationReached = repositoriesResponse.items.isEmpty()
 
-                val previousPage = if (it == FIRST_PAGE_NUMBER) null else it.minus(PAGING_DECREMENT)
+                val previousPage = if (it == FIRST_PAGE) null else it.minus(PAGING_DECREMENT)
                 val nextPage = if (endOfPaginationReached) null else it.plus(PAGING_INCREMENT)
 
                 database.withTransaction {
-                    if (loadType == LoadType.REFRESH) {
+                    if (loadType == LoadType.REFRESH && currentPage == FIRST_PAGE) {
                         database.repositoriesPagingInfoDao().clearAll()
                         database.repositoriesDao().clearAll()
                     }
@@ -94,11 +92,14 @@ class RepositoriesRemoteMediator(
     ): RepositoryPagingInfoEntity? {
         return when (loadType) {
             LoadType.REFRESH -> {
-                state.anchorPosition?.let { position ->
-                    state.closestItemToPosition(position)?.id?.let { id ->
-                        database.repositoriesPagingInfoDao().get(id)
+                database.repositoriesPagingInfoDao().getNewest()
+                    ?: kotlin.run {
+                        state.anchorPosition?.let { position ->
+                            state.closestItemToPosition(position)?.id?.let { id ->
+                                database.repositoriesPagingInfoDao().get(id)
+                            }
+                        }
                     }
-                }
             }
             LoadType.PREPEND -> {
                 state.pages.firstOrNull { page ->
