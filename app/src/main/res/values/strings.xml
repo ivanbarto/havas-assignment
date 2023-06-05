@@ -14,4 +14,5 @@
     <string name="text_created_at">Created at: %1$s</string>
     <string name="text_share_url_message">Hey! Have a look at this cool repo that I\'ve found: %1$s</string>
     <string name="text_share_repo">Share repo</string>
+    <string name="text_clean_cache">clean cache</string>
 </resources>

@@ -27,6 +27,10 @@ class RepositoriesRepoImpl(
         },
         remoteMediator = RepositoriesRemoteMediator(repositoriesService, database)
     ).flow.map { it.map { data -> data.toRepository() } }
+
+    override suspend fun clearRepositoriesCache() {
+        database.clearAllTables()
+    }
 }
 
 

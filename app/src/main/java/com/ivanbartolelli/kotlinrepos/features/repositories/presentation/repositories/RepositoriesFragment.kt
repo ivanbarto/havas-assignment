@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -11,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.CombinedLoadStates
 import androidx.paging.LoadState
+import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
@@ -21,9 +23,15 @@ import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Reposi
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.RepositoriesAdapter
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.RepositoriesLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.Main
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.net.UnknownHostException
+import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class RepositoriesFragment : BaseFragment() {
@@ -32,7 +40,7 @@ class RepositoriesFragment : BaseFragment() {
 
     private val repositoriesViewModel by viewModels<RepositoriesViewModel>()
 
-    var repositoriesAdapter: RepositoriesAdapter = RepositoriesAdapter()
+    private var repositoriesAdapter: RepositoriesAdapter = RepositoriesAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return RepositoriesFragmentBinding.inflate(inflater, container, false).also { binding = it }.root
@@ -46,7 +54,12 @@ class RepositoriesFragment : BaseFragment() {
     }
 
     private fun setupView() {
-
+        binding.btnCleanCache.setOnClickListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                repositoriesViewModel.clearRepositoriesCache()
+                repositoriesAdapter.refresh()
+            }
+        }
         setupRecyclerView()
     }
 
@@ -76,7 +89,6 @@ class RepositoriesFragment : BaseFragment() {
 
             repositoriesAdapter.also { adapter ->
                 adapter.onRepositoryClick = { navigateToDetails(it) }
-
             }
 
             adapter = repositoriesAdapter.withLoadStateHeaderAndFooter(
@@ -85,7 +97,6 @@ class RepositoriesFragment : BaseFragment() {
             )
         }
     }
-
 
 
     private fun navigateToDetails(it: Repository) {
