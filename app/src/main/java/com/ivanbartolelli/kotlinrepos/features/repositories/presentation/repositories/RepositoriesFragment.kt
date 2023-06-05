@@ -48,10 +48,6 @@ class RepositoriesFragment : BaseFragment() {
     private fun setupView() {
 
         setupRecyclerView()
-
-        binding.lySwipeRefresh.setOnRefreshListener {
-            repositoriesAdapter.refresh()
-        }
     }
 
     private fun observeRepositories() {
@@ -81,9 +77,6 @@ class RepositoriesFragment : BaseFragment() {
             repositoriesAdapter.also { adapter ->
                 adapter.onRepositoryClick = { navigateToDetails(it) }
 
-                adapter.addLoadStateListener { loadStates ->
-                    observeRefreshLoadState(loadStates)
-                }
             }
 
             adapter = repositoriesAdapter.withLoadStateHeaderAndFooter(
@@ -93,26 +86,7 @@ class RepositoriesFragment : BaseFragment() {
         }
     }
 
-    private fun observeRefreshLoadState(loadStates: CombinedLoadStates) {
-        binding.lySwipeRefresh.isRefreshing = loadStates.refresh is LoadState.Loading
 
-        if (loadStates.refresh is LoadState.Error) {
-
-            when (val refreshState = (loadStates.refresh as? LoadState.Error)?.error) {
-                is UnknownHostException -> {
-                    customSnackbarLoader.showWarning(
-                        getString(R.string.text_not_connected)
-                    )
-                }
-                else -> {
-                    customSnackbarLoader.showWarning(
-                        refreshState?.message
-                            ?: getString(R.string.text_unknown_error)
-                    )
-                }
-            }
-        }
-    }
 
     private fun navigateToDetails(it: Repository) {
         val direction = RepositoriesFragmentDirections.actionRepositoriesFragmentToRepositoryDetailFragment(it)
