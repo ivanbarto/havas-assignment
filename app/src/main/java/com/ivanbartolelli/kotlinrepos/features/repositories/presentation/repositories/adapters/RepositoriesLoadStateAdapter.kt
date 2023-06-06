@@ -1,6 +1,5 @@
 package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -15,7 +14,7 @@ class RepositoriesLoadStateAdapter(private val repositoriesAdapter: Repositories
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): BaseViewHolder<LoadState> {
         val itemBinding = RepositoryNetworkStateItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return NetworkStateItemViewHolder(itemBinding, parent.context) { repositoriesAdapter.retry() }
+        return NetworkStateItemViewHolder(itemBinding) { repositoriesAdapter.retry() }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<LoadState>, loadState: LoadState) {
@@ -24,7 +23,6 @@ class RepositoriesLoadStateAdapter(private val repositoriesAdapter: Repositories
 
     inner class NetworkStateItemViewHolder(
         private val itemBinding: RepositoryNetworkStateItemBinding,
-        context: Context,
         private val retryCallback: () -> Unit
     ) : BaseViewHolder<LoadState>(itemBinding.root) {
 
@@ -42,7 +40,7 @@ class RepositoriesLoadStateAdapter(private val repositoriesAdapter: Repositories
                     text = context.getString(
                         R.string.text_error,
                         (item as? LoadState.Error)?.error?.message
-                            ?: R.string.text_generic_error
+                            ?: context.getString(R.string.text_generic_error)
                     )
                 }
             }
