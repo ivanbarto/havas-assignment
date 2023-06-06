@@ -4,19 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
-import androidx.paging.CombinedLoadStates
-import androidx.paging.LoadState
-import androidx.recyclerview.widget.ConcatAdapter
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
-import com.ivanbartolelli.kotlinrepos.R
 import com.ivanbartolelli.kotlinrepos.core.presentation.BaseFragment
 import com.ivanbartolelli.kotlinrepos.databinding.RepositoriesFragmentBinding
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Repository
@@ -25,13 +20,8 @@ import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.reposit
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Dispatchers.Main
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.net.UnknownHostException
-import kotlin.coroutines.coroutineContext
 
 @AndroidEntryPoint
 class RepositoriesFragment : BaseFragment() {
@@ -73,9 +63,7 @@ class RepositoriesFragment : BaseFragment() {
                     repositoriesAdapter.submitData(pagingData)
                 }
             }
-
         }
-
     }
 
 

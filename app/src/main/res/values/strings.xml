@@ -15,4 +15,7 @@
     <string name="text_share_url_message">Hey! Have a look at this cool repo that I\'ve found: %1$s</string>
     <string name="text_share_repo">Share repo</string>
     <string name="text_clean_cache">clean cache</string>
+    <string name="text_error">Error: %1$s</string>
+    <string name="text_generic_error">An error has happened</string>
+
 </resources>
