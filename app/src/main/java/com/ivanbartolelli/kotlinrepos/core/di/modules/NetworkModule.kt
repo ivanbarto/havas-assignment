@@ -2,7 +2,7 @@ package com.ivanbartolelli.kotlinrepos.core.di.modules
 
 import com.google.gson.GsonBuilder
 import com.ivanbartolelli.kotlinrepos.BuildConfig
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.RepositoriesService
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.PostService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -50,8 +50,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideAuthenticationService(retrofit: Retrofit) : RepositoriesService {
-        return retrofit.create(RepositoriesService::class.java)
+    fun providePostService(retrofit: Retrofit) : PostService {
+        return retrofit.create(PostService::class.java)
     }
 
 }

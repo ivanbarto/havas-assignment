@@ -8,14 +8,14 @@ import coil.load
 import com.ivanbartolelli.kotlinrepos.R
 import com.ivanbartolelli.kotlinrepos.core.presentation.BaseViewHolder
 import com.ivanbartolelli.kotlinrepos.databinding.RepositoryItemBinding
-import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Repository
+import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Post
 import javax.inject.Inject
 
-class RepositoriesAdapter @Inject constructor() : PagingDataAdapter<Repository, BaseViewHolder<Repository>>(RepositoryComparator) {
+class PostsAdapter @Inject constructor() : PagingDataAdapter<Post, BaseViewHolder<Post>>(PostComparator) {
 
-    lateinit var onRepositoryClick: (repository: Repository) -> Unit
+    lateinit var onRepositoryClick: (post: Post) -> Unit
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Repository> {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Post> {
 
         val itemBinding = RepositoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
@@ -33,19 +33,19 @@ class RepositoriesAdapter @Inject constructor() : PagingDataAdapter<Repository, 
         return holder
     }
 
-    override fun onBindViewHolder(holder: BaseViewHolder<Repository>, position: Int) {
+    override fun onBindViewHolder(holder: BaseViewHolder<Post>, position: Int) {
         getItem(position)?.let { holder.bind(it) }
     }
 
     inner class RepositoryViewHolder(private val parent: ViewGroup, private val itemBinding: RepositoryItemBinding) :
-        BaseViewHolder<Repository>(itemBinding.root) {
+        BaseViewHolder<Post>(itemBinding.root) {
 
-        override fun bind(item: Repository): Unit = with(itemBinding) {
-            tvRepositoryName.text = item.name
-            tvUserName.text = parent.context.getString(R.string.text_by_user, item.owner?.userName)
-            tvWatchers.text = item.watchersCount.toString()
+        override fun bind(item: Post): Unit = with(itemBinding) {
+            tvRepositoryName.text = item.title
+            tvUserName.text = parent.context.getString(R.string.text_by_user, item.author)
+            tvWatchers.text = item.commentsCount.toString()
 
-            ivUser.ivContent.load(item.owner?.avatarUrl) {
+            ivUser.ivContent.load(item.imageUrl) {
                 crossfade(true)
                 placeholder(R.drawable.ic_user)
                 error(R.drawable.ic_user)
@@ -54,11 +54,11 @@ class RepositoriesAdapter @Inject constructor() : PagingDataAdapter<Repository, 
     }
 
 
-    object RepositoryComparator : DiffUtil.ItemCallback<Repository>() {
-        override fun areItemsTheSame(oldItem: Repository, newItem: Repository) =
+    object PostComparator : DiffUtil.ItemCallback<Post>() {
+        override fun areItemsTheSame(oldItem: Post, newItem: Post) =
             oldItem.id == newItem.id
 
-        override fun areContentsTheSame(oldItem: Repository, newItem: Repository) =
+        override fun areContentsTheSame(oldItem: Post, newItem: Post) =
             oldItem == newItem
     }
 }

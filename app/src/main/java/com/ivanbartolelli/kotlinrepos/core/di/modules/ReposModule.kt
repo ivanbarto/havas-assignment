@@ -1,9 +1,9 @@
 package com.ivanbartolelli.kotlinrepos.core.di.modules
 
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.RepositoriesDatabase
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.RepositoriesService
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.RepositoriesRepo
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.RepositoriesRepoImpl
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.PostsDatabase
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.PostService
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.PostsRepo
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.PostsRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,7 +17,7 @@ class ReposModule {
 
     @Singleton
     @Provides
-    fun provideRepositoriesRepo(service: RepositoriesService, database: RepositoriesDatabase): RepositoriesRepo {
-        return RepositoriesRepoImpl(service, database)
+    fun providePostsRepo(service: PostService, database: PostsDatabase): PostsRepo {
+        return PostsRepoImpl(service, database)
     }
 }

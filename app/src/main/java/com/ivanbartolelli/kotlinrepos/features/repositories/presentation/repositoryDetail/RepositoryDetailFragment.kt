@@ -11,7 +11,7 @@ import coil.load
 import com.ivanbartolelli.kotlinrepos.R
 import com.ivanbartolelli.kotlinrepos.core.presentation.BaseFragment
 import com.ivanbartolelli.kotlinrepos.databinding.RepositoryDetailsFragmentBinding
-import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Repository
+import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Post
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.utils.DateUtils
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.utils.IntentUtils
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.utils.ShareUtils
@@ -20,7 +20,7 @@ class RepositoryDetailFragment : BaseFragment() {
 
     lateinit var binding: RepositoryDetailsFragmentBinding
 
-    lateinit var repository: Repository
+    lateinit var post: Post
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return RepositoryDetailsFragmentBinding.inflate(layoutInflater, container, false).also { binding = it }.root
@@ -30,7 +30,7 @@ class RepositoryDetailFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         arguments?.let {
-            repository = RepositoryDetailFragmentArgs.fromBundle(it).repository
+            post = RepositoryDetailFragmentArgs.fromBundle(it).post
         }
 
         setupToolbar()
@@ -39,45 +39,45 @@ class RepositoryDetailFragment : BaseFragment() {
     }
 
     private fun setupViewActions() {
-        binding.cvHttpContainer.btnCopy.setOnClickListener {
-            repository.gitUrl?.let { url -> ShareUtils.copyToClipboard(url, requireContext()) }
-            showCopiedToClipboardMessage()
-        }
-
-        binding.cvSshContainer.btnCopy.setOnClickListener {
-            repository.sshUrl?.let { url -> ShareUtils.copyToClipboard(url, requireContext()) }
-            showCopiedToClipboardMessage()
-        }
+//      setupViewActions  binding.cvHttpContainer.btnCopy.setOnClickListener {
+//            post.gitUrl?.let { url -> ShareUtils.copyToClipboard(url, requireContext()) }
+//            showCopiedToClipboardMessage()
+//        }
+//
+//        binding.cvSshContainer.btnCopy.setOnClickListener {
+//            post.sshUrl?.let { url -> ShareUtils.copyToClipboard(url, requireContext()) }
+//            showCopiedToClipboardMessage()
+//        }
 
 
         binding.btnOpenRepo.setOnClickListener {
-            repository.urlAsUri()?.let { uri ->
+            post.urlAsUri()?.let { uri ->
                 IntentUtils.openURLInBrowser(requireContext(), uri)
             }
         }
     }
 
     private fun setupRepositoryInfo() {
-        binding.tvRepositoryName.text = repository.name
-        binding.tvUserName.text = repository.owner?.userName
-        binding.tvDescription.text = repository.description
-        binding.tvWatchers.text = repository.watchersCount.toString()
+        binding.tvRepositoryName.text = post.title
+        binding.tvUserName.text = post.author
+        binding.tvDescription.text = post.body
+        binding.tvWatchers.text = post.commentsCount.toString()
 
-        binding.cvHttpContainer.tvUrl.text = repository.gitUrl
-        binding.cvSshContainer.tvUrl.text = repository.sshUrl
+//        binding.cvHttpContainer.tvUrl.text = post.gitUrl
+//        binding.cvSshContainer.tvUrl.text = post.sshUrl
 
-        binding.ivUser.ivContent.load(repository.owner?.avatarUrl) {
-            placeholder(R.drawable.ic_user)
-            crossfade(true)
-        }
-
-        repository.updatedAt?.let {
-            binding.tvUpdateDate.text = getString(R.string.text_last_update, DateUtils.getShortDateString(it))
-        }
-
-        repository.createdAt?.let {
-            binding.tvCreationDate.text = getString(R.string.text_created_at, DateUtils.getShortDateString(it))
-        }
+//        binding.ivUser.ivContent.load(post.owner?.avatarUrl) {
+//            placeholder(R.drawable.ic_user)
+//            crossfade(true)
+//        }
+//
+//        post.updatedAt?.let {
+//            binding.tvUpdateDate.text = getString(R.string.text_last_update, DateUtils.getShortDateString(it))
+//        }
+//
+//        post.createdAt?.let {
+//            binding.tvCreationDate.text = getString(R.string.text_created_at, DateUtils.getShortDateString(it))
+//        }
     }
 
 
@@ -87,7 +87,7 @@ class RepositoryDetailFragment : BaseFragment() {
 
             when (menuItem.itemId) {
                 R.id.share -> {
-                    ShareUtils.shareText(requireContext(), getString(R.string.text_share_url_message, repository.httpUrl()))
+                    ShareUtils.shareText(requireContext(), getString(R.string.text_share_url_message, post.httpUrl()))
                 }
             }
 

@@ -9,12 +9,12 @@ import com.ivanbartolelli.kotlinrepos.R
 import com.ivanbartolelli.kotlinrepos.core.presentation.BaseViewHolder
 import com.ivanbartolelli.kotlinrepos.databinding.RepositoryNetworkStateItemBinding
 
-class RepositoriesLoadStateAdapter(private val repositoriesAdapter: RepositoriesAdapter) : LoadStateAdapter<BaseViewHolder<LoadState>>() {
+class RepositoriesLoadStateAdapter(private val postsAdapter: PostsAdapter) : LoadStateAdapter<BaseViewHolder<LoadState>>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): BaseViewHolder<LoadState> {
         val itemBinding = RepositoryNetworkStateItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return NetworkStateItemViewHolder(itemBinding) { repositoriesAdapter.retry() }
+        return NetworkStateItemViewHolder(itemBinding) { postsAdapter.retry() }
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<LoadState>, loadState: LoadState) {

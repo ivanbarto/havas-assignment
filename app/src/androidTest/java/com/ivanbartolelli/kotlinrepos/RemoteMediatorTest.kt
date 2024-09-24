@@ -10,13 +10,13 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.GsonBuilder
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.RepositoriesDatabase
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.RepositoryEntity
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.PostsDatabase
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.entities.PostEntity
 import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.local.database.utils.DatabaseConstants
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.mediators.RepositoriesRemoteMediator
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.RepositoriesService
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.RepositoriesRepo
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.RepositoriesRepoImpl
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.mediators.PostRemoteMediator
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.PostService
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.PostsRepo
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.repos.PostsRepoImpl
 import dagger.hilt.android.testing.HiltAndroidTest
 import junit.framework.TestCase.assertFalse
 import junit.framework.TestCase.assertTrue
@@ -35,13 +35,13 @@ import java.util.concurrent.TimeUnit
 @HiltAndroidTest
 class RemoteMediatorTest {
 
-    private lateinit var repositoriesRepo: RepositoriesRepo
+    private lateinit var postsRepo: PostsRepo
     private val mockDb = provideDatabase(ApplicationProvider.getApplicationContext())
     private val service = provideAuthenticationService(provideRetrofitClient(provideOkHttpClient()))
 
     @Before
     fun createRepo() {
-        repositoriesRepo = provideRepositoriesRepo(
+        postsRepo = provideRepositoriesRepo(
             service,
             mockDb
         )
@@ -57,9 +57,9 @@ class RemoteMediatorTest {
     fun remoteMediator_appendsDataSuccessfully() = runBlocking {
         // Add mock results for the API to return.
 
-        val remoteMediator = RepositoriesRemoteMediator(service, mockDb)
+        val remoteMediator = PostRemoteMediator(service, mockDb)
 
-        val pagingState = PagingState<Int, RepositoryEntity>(
+        val pagingState = PagingState<Int, PostEntity>(
             listOf(),
             null,
             PagingConfig(30),
@@ -96,15 +96,15 @@ class RemoteMediatorTest {
             .build()
     }
 
-    private fun provideAuthenticationService(retrofit: Retrofit): RepositoriesService {
-        return retrofit.create(RepositoriesService::class.java)
+    private fun provideAuthenticationService(retrofit: Retrofit): PostService {
+        return retrofit.create(PostService::class.java)
     }
 
-    private fun provideRepositoriesRepo(service: RepositoriesService, database: RepositoriesDatabase): RepositoriesRepo {
-        return RepositoriesRepoImpl(service, database)
+    private fun provideRepositoriesRepo(service: PostService, database: PostsDatabase): PostsRepo {
+        return PostsRepoImpl(service, database)
     }
 
-    private fun provideDatabase(application: Application): RepositoriesDatabase {
-        return Room.databaseBuilder(application, RepositoriesDatabase::class.java, DatabaseConstants.DATABASE_NAME).build()
+    private fun provideDatabase(application: Application): PostsDatabase {
+        return Room.databaseBuilder(application, PostsDatabase::class.java, DatabaseConstants.DATABASE_NAME).build()
     }
 }

@@ -19,7 +19,7 @@
         android:id="@+id/repositoryDetailFragment"
         android:name="com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositoryDetail.RepositoryDetailFragment">
         <argument
-            android:name="repository"
-            app:argType="com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Repository" />
+            android:name="post"
+            app:argType="com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Post" />
     </fragment>
 </navigation>

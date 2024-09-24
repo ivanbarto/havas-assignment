@@ -1,6 +1,6 @@
-# kotlin-repos
+# reddit
 
-First of all, I want to thank Swiftly for this great opportunity! It has been a fun challenge to develop this product.
+First of all, I want to thank you for this great opportunity! It has been a fun challenge to develop this product.
 I hope you like the end result!
 
 Instructions to compile the project:
@@ -14,9 +14,7 @@ Instructions to compile the project:
 
 ## About the app
 
-This app allows us to see the repositories related to the Kotlin language based on a master-detail pattern. To achieve this, it consumes the public Github API. 
-
-There is also a Jetpack Compose Version! Check it out: https://github.com/ivanbarto/kotlin-repos-compose
+This app allows us to see the reddit posts based on a master-detail pattern.
 
 Let's take a quick look at it:
 

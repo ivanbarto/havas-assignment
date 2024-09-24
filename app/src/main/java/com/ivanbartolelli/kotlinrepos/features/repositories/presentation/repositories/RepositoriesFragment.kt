@@ -14,8 +14,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.ivanbartolelli.kotlinrepos.core.presentation.BaseFragment
 import com.ivanbartolelli.kotlinrepos.databinding.RepositoriesFragmentBinding
-import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Repository
-import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.RepositoriesAdapter
+import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Post
+import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.PostsAdapter
 import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.RepositoriesLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -30,7 +30,7 @@ class RepositoriesFragment : BaseFragment() {
 
     private val repositoriesViewModel by viewModels<RepositoriesViewModel>()
 
-    private var repositoriesAdapter: RepositoriesAdapter = RepositoriesAdapter()
+    private var postsAdapter: PostsAdapter = PostsAdapter()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         return RepositoriesFragmentBinding.inflate(inflater, container, false).also { binding = it }.root
@@ -47,7 +47,7 @@ class RepositoriesFragment : BaseFragment() {
         binding.btnCleanCache.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
                 repositoriesViewModel.clearRepositoriesCache()
-                repositoriesAdapter.refresh()
+                postsAdapter.refresh()
             }
         }
         setupRecyclerView()
@@ -60,7 +60,7 @@ class RepositoriesFragment : BaseFragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 repositoriesViewModel.repositories.collectLatest { pagingData ->
-                    repositoriesAdapter.submitData(pagingData)
+                    postsAdapter.submitData(pagingData)
                 }
             }
         }
@@ -75,19 +75,19 @@ class RepositoriesFragment : BaseFragment() {
 
             addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
 
-            repositoriesAdapter.also { adapter ->
+            postsAdapter.also { adapter ->
                 adapter.onRepositoryClick = { navigateToDetails(it) }
             }
 
-            adapter = repositoriesAdapter.withLoadStateHeaderAndFooter(
-                RepositoriesLoadStateAdapter(repositoriesAdapter),
-                RepositoriesLoadStateAdapter(repositoriesAdapter)
+            adapter = postsAdapter.withLoadStateHeaderAndFooter(
+                RepositoriesLoadStateAdapter(postsAdapter),
+                RepositoriesLoadStateAdapter(postsAdapter)
             )
         }
     }
 
 
-    private fun navigateToDetails(it: Repository) {
+    private fun navigateToDetails(it: Post) {
         val direction = RepositoriesFragmentDirections.actionRepositoriesFragmentToRepositoryDetailFragment(it)
         findNavController().navigate(direction)
     }

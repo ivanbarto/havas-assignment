@@ -23,7 +23,7 @@ android {
         buildConfigField "int", "READ_TIMEOUT", "30"
         buildConfigField "int", "CONNECT_TIMEOUT", "10"
         buildConfigField "int", "WRITE_TIMEOUT", "10"
-        buildConfigField "String", "BASE_API_URL", "\"https://api.github.com/\""
+        buildConfigField "String", "BASE_API_URL", "\"https://www.reddit.com/\""
     }
 
     testOptions {

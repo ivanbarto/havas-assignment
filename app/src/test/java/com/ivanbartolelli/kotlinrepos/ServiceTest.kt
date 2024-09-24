@@ -1,7 +1,7 @@
 package com.ivanbartolelli.kotlinrepos
 
 import com.google.gson.GsonBuilder
-import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.RepositoriesService
+import com.ivanbartolelli.kotlinrepos.features.repositories.data.datasources.remote.services.PostService
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -28,7 +28,7 @@ class ServiceTest {
             )
         )
 
-        val repositories = service.getRepositoriesByLanguage(
+        val repositories = service.getPosts(
             language = "language:kotlin",
             page = 1,
             itemsPerPage = itemsPerPage
@@ -63,8 +63,8 @@ class ServiceTest {
             .build()
     }
 
-    private fun provideAuthenticationService(retrofit: Retrofit): RepositoriesService {
-        return retrofit.create(RepositoriesService::class.java)
+    private fun provideAuthenticationService(retrofit: Retrofit): PostService {
+        return retrofit.create(PostService::class.java)
     }
 
 }
