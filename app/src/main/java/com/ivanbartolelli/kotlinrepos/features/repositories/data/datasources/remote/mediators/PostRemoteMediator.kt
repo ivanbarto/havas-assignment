@@ -30,17 +30,17 @@ class PostRemoteMediator(
 
             val currentPagingInfo = getCurrentPagingInfo(loadType, state, database)
 
-            val repositoriesResponse = service.getPosts(
+            val postsResponse = service.getPosts(
                 nextId = currentPagingInfo?.nextId,
                 previousId = currentPagingInfo?.previousId,
                 limit = PostsConstants.ITEMS_PER_PAGE
             ).also { response ->
-                response.data.items.forEach { repositoryDto ->
-                    repositoryDto.timestamp = System.currentTimeMillis()
+                response.data.children.forEach { postDto ->
+                    postDto.data.timestamp = System.currentTimeMillis()
                 }
             }
 
-            val endOfPaginationReached = repositoriesResponse.data.items.isEmpty()
+            val endOfPaginationReached = postsResponse.data.children.isEmpty()
 
             database.withTransaction {
                 if (loadType == LoadType.REFRESH) {
@@ -48,18 +48,18 @@ class PostRemoteMediator(
                     database.postsDao().clearAll()
                 }
 
-                val repositoriesPagingInfo = repositoriesResponse.data.items.map { repositoryDto ->
+                val postsPagingInfo = postsResponse.data.children.map { postDto ->
                     PostPagingInfoEntity(
-                        id = repositoryDto.id,
-                        previousId = repositoriesResponse.data.previousId,
-                        nextId = repositoriesResponse.data.nextId,
-                        timestamp = repositoryDto.timestamp
+                        id = postDto.data.id,
+                        previousId = postsResponse.data.previousId,
+                        nextId = postsResponse.data.nextId,
+                        timestamp = postDto.data.timestamp
                     )
                 }
 
-                database.postsPagingInfoDao().insertAll(repositoriesPagingInfo)
+                database.postsPagingInfoDao().insertAll(postsPagingInfo)
                 database.postsDao()
-                    .insertAll(repositoriesResponse.data.items.map { repositoryDto -> repositoryDto.toEntity() })
+                    .insertAll(postsResponse.data.children.map { postDto -> postDto.data.toEntity() })
             }
 
             MediatorResult.Success(

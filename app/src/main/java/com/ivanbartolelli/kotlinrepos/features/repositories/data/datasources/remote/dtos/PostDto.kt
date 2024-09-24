@@ -11,13 +11,13 @@ data class PostDto(
     val imageUrl: String,
     @SerializedName("title")
     val title: String,
-    @SerializedName("author")
+    @SerializedName("selftext")
     val body: String,
-    @SerializedName("permalink")
+    @SerializedName("author")
     val author: String,
     @SerializedName("num_comments")
     val commentsCount: Int,
     @SerializedName("ups")
     val ups: Int,
-    var timestamp : Long
+    var timestamp: Long
 )

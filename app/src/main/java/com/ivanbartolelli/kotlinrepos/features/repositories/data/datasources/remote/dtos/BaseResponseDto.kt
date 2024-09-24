@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class BaseResponseDto<T>(
     @SerializedName("kind")
-    val kind: Int,
+    val kind: String,
     @SerializedName("data")
     val data: BaseDataDto<T>
 )
@@ -15,5 +15,10 @@ data class BaseDataDto<T>(
     @SerializedName("before")
     val previousId: String?,
     @SerializedName("children")
-    val items: List<T>,
+    val children: List<BaseChildrenDto<T>>,
+)
+
+data class BaseChildrenDto<T>(
+    @SerializedName("data")
+    val data: T
 )
