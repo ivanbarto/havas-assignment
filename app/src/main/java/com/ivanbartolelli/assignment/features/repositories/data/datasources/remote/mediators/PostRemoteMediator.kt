@@ -27,42 +27,42 @@ class PostRemoteMediator(
         state: PagingState<Int, PostEntity>
     ): MediatorResult {
         return try {
-
-            val currentPagingInfo = getCurrentPagingInfo(loadType, state, database)
-
-            val postsResponse = service.getPosts(
-                nextId = currentPagingInfo?.nextId,
-                limit = PostsConstants.ITEMS_PER_PAGE
-            ).also { response ->
-                response.data.children.forEach { postDto ->
-                    postDto.data.timestamp = System.currentTimeMillis()
-                }
-            }
-
-            val endOfPaginationReached = postsResponse.data.children.isEmpty()
-
-            database.withTransaction {
-                if (loadType == LoadType.REFRESH) {
-                    database.postsPagingInfoDao().clearAll()
-                    database.postsDao().clearAll()
-                }
-
-                val postsPagingInfo = postsResponse.data.children.map { postDto ->
-                    PostPagingInfoEntity(
-                        id = postDto.data.id,
-                        nextId = postsResponse.data.nextId,
-                        timestamp = postDto.data.timestamp
-                    )
-                }
-
-                database.postsPagingInfoDao().insertAll(postsPagingInfo)
-                database.postsDao()
-                    .insertAll(postsResponse.data.children.map { postDto -> postDto.data.toEntity() })
-            }
-
             when (loadType) {
                 LoadType.PREPEND -> MediatorResult.Success(endOfPaginationReached = true)
-                else -> MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+                else -> {
+                    val currentPagingInfo = getCurrentPagingInfo(loadType, state, database)
+
+                    val postsResponse = service.getPosts(
+                        nextId = currentPagingInfo?.nextId,
+                        limit = PostsConstants.ITEMS_PER_PAGE
+                    ).also { response ->
+                        response.data.children.forEach { postDto ->
+                            postDto.data.timestamp = System.currentTimeMillis()
+                        }
+                    }
+
+                    val endOfPaginationReached = postsResponse.data.children.isEmpty()
+
+                    database.withTransaction {
+                        if (loadType == LoadType.REFRESH) {
+                            database.postsPagingInfoDao().clearAll()
+                            database.postsDao().clearAll()
+                        }
+
+                        val postsPagingInfo = postsResponse.data.children.map { postDto ->
+                            PostPagingInfoEntity(
+                                id = postDto.data.id,
+                                nextId = postsResponse.data.nextId,
+                                timestamp = postDto.data.timestamp
+                            )
+                        }
+
+                        database.postsPagingInfoDao().insertAll(postsPagingInfo)
+                        database.postsDao()
+                            .insertAll(postsResponse.data.children.map { postDto -> postDto.data.toEntity() })
+                    }
+                    MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+                }
             }
         } catch (e: Exception) {
             MediatorResult.Error(e)

@@ -48,7 +48,7 @@ class PostsFragment : BaseFragment() {
     }
 
     private fun setupView() {
-        binding.btnCleanCache.setOnClickListener {
+        binding.swipeContainer.setOnRefreshListener {
             CoroutineScope(Dispatchers.IO).launch {
                 postsViewModel.cleanPostsCache()
                 postsAdapter.refresh()
@@ -61,6 +61,7 @@ class PostsFragment : BaseFragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 postsViewModel.repositories.collectLatest { pagingData ->
+                    binding.swipeContainer.isRefreshing = false
                     postsAdapter.submitData(pagingData)
                 }
             }

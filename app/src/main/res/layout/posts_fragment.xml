@@ -1,54 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipe_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_margin="@dimen/margin_10dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/ic_reddit_logo"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/btn_clean_cache"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="@dimen/margin_10dp"
-        app:cardBackgroundColor="@color/transparent"
-        app:cardElevation="0dp"
-        app:layout_constraintBottom_toBottomOf="@+id/iv_logo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/iv_logo"
-        app:shapeAppearance="@style/roundedShape">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <ImageView
+            android:id="@+id/iv_logo"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_margin="@dimen/margin_10dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/ic_reddit_logo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_repositories"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/text_clean_cache"
-            android:src="@drawable/ic_clean_cache" />
-    </com.google.android.material.card.MaterialCardView>
+            android:layout_marginTop="@dimen/margin_10dp"
+            android:focusable="false"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_logo"
+            tools:listitem="@layout/post_item" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_repositories"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="@dimen/margin_10dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_logo"
-        tools:listitem="@layout/post_item" />
+    </LinearLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
 

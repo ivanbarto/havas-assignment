@@ -11,13 +11,15 @@ import com.ivanbartolelli.assignment.databinding.PostItemBinding
 import com.ivanbartolelli.assignment.features.repositories.domain.models.Post
 import javax.inject.Inject
 
-class PostsAdapter @Inject constructor() : PagingDataAdapter<Post, BaseViewHolder<Post>>(PostComparator) {
+class PostsAdapter @Inject constructor() :
+    PagingDataAdapter<Post, BaseViewHolder<Post>>(PostComparator) {
 
     lateinit var onPostClick: (post: Post) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Post> {
 
-        val itemBinding = PostItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding =
+            PostItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         val holder = RepositoryViewHolder(itemBinding)
 
@@ -60,6 +62,6 @@ class PostsAdapter @Inject constructor() : PagingDataAdapter<Post, BaseViewHolde
             oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: Post, newItem: Post) =
-            oldItem == newItem
+            oldItem.id == newItem.id
     }
 }
