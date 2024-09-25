@@ -17,7 +17,7 @@
     </fragment>
     <fragment
         android:id="@+id/postDetailFragment"
-        android:name="com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositoryDetail.RepositoryDetailFragment">
+        android:name="com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositoryDetail.PostDetailFragment">
         <argument
             android:name="post"
             app:argType="com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Post" />
