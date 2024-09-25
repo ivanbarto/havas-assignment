@@ -2,6 +2,9 @@
     <string name="app_name">Kotlin Repos</string>
     <string name="text_reddit">Reddit</string>
     <string name="text_return">Return</string>
+    <string name="text_comments">Comments</string>
+    <string name="text_upvotes">Upvotes</string>
+    <string name="text_post_image">Post Image</string>
     <string name="text_by_user">By %1$s</string>
     <string name="text_unknown_error">An unknown error has happened. Please, refresh and try again.</string>
     <string name="text_not_connected">You are not connected to internet. Offline mode on!</string>

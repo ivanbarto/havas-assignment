@@ -23,24 +23,27 @@ class PostDetailFragment : BaseFragment() {
     ): View {
 
         return PostDetailFragmentBinding.inflate(layoutInflater, container, false)
-            .also { binding = it }.root
+            .also {
+                binding = it
+                arguments?.let {
+                    post = PostDetailFragmentArgs.fromBundle(it).post
+                }
+
+                binding.container.apply {
+                    setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+                    setContent {
+                        PostDetailScreen(
+                            navController = findNavController(),
+                            post = post
+                        )
+                    }
+                }
+            }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        arguments?.let {
-            post = PostDetailFragmentArgs.fromBundle(it).post
-        }
 
-        binding.container.apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                PostDetailScreen(
-                    navController = findNavController(),
-                    post = post
-                )
-            }
-        }
     }
 }

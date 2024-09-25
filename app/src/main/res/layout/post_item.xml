@@ -50,7 +50,7 @@
 
     <include
         android:id="@+id/card_up_votes"
-        layout="@layout/clickable_data_container"
+        layout="@layout/data_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_10dp"
@@ -61,7 +61,7 @@
 
     <include
         android:id="@+id/card_comments"
-        layout="@layout/clickable_data_container"
+        layout="@layout/data_container"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="@dimen/margin_10dp"
