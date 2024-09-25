@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/postsFragment"
-        android:name="com.ivanbartolelli.kotlinrepos.features.repositories.presentation.posts.PostsFragment">
+        android:name="com.ivanbartolelli.assignment.features.repositories.presentation.posts.PostsFragment">
         <action
             android:id="@+id/action_postsFragment_to_postDetailFragment"
             app:destination="@id/postDetailFragment"
@@ -17,9 +17,9 @@
     </fragment>
     <fragment
         android:id="@+id/postDetailFragment"
-        android:name="com.ivanbartolelli.kotlinrepos.features.repositories.presentation.postDetail.PostDetailFragment">
+        android:name="com.ivanbartolelli.assignment.features.repositories.presentation.postDetail.PostDetailFragment">
         <argument
             android:name="post"
-            app:argType="com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Post" />
+            app:argType="com.ivanbartolelli.assignment.features.repositories.domain.models.Post" />
     </fragment>
 </navigation>

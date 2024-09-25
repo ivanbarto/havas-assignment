@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.KotlinRepos" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+    <style name="Theme.Assignment" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryVariant">@color/colorPrimaryVariant</item>
@@ -14,7 +14,7 @@
     </style>
 
 
-    <style name="roundedShape" parent="Theme.KotlinRepos">
+    <style name="roundedShape" parent="Theme.Assignment">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>

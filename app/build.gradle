@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace 'com.ivanbartolelli.kotlinrepos'
+    namespace 'com.ivanbartolelli.assignment'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.ivanbartolelli.kotlinrepos"
+        applicationId "com.ivanbartolelli.assignment"
         minSdk 24
         targetSdk 34
         versionCode 1
