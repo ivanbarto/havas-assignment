@@ -2,10 +2,7 @@ package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.reposi
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.scrollable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +10,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowBack
@@ -43,95 +40,115 @@ import coil.request.ImageRequest
 import com.ivanbartolelli.kotlinrepos.R
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Post
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PostDetailScreen(
     navController: NavController,
     post: Post
 ) {
-
-    val scrollState = rememberScrollState()
-
-    Column(
+    LazyColumn(
         Modifier
             .fillMaxSize()
-            .scrollable(scrollState, Orientation.Vertical)
     ) {
-        TopAppBar(
-            title = {
-                Image(
-                    imageVector = ImageVector.vectorResource(id = R.drawable.ic_reddit_logo),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(30.dp)
-                        .width(90.dp),
-                    contentScale = ContentScale.FillBounds
-                )
-            },
-            colors = TopAppBarColors(
-                containerColor = Color.Transparent,
-                Color.Unspecified,
-                Color.Unspecified,
-                Color.Unspecified,
-                Color.Unspecified
-            ),
-            navigationIcon = {
-                IconButton(onClick = { navController.navigateUp() }) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                        tint = MaterialTheme.colorScheme.onBackground,
-                        contentDescription = stringResource(R.string.text_return),
-                        modifier = Modifier
-                            .size(40.dp)
-                            .padding(10.dp)
-                    )
-                }
-            }
-        )
-
-        Text(
-            text = post.title,
-            style = MaterialTheme.typography.titleLarge,
-            modifier = Modifier.padding(horizontal = 10.dp),
-            textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Bold
-        )
-
-        Text(
-            text = post.body,
-            style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.padding(top = 10.dp, start = 10.dp, end = 10.dp),
-            textAlign = TextAlign.Start,
-        )
-
-        AsyncImage(
-            model = ImageRequest.Builder(LocalContext.current)
-                .data(post.imageUrl)
-                .crossfade(true)
-                .build(),
-            contentDescription = stringResource(R.string.text_post_image),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(10.dp)
-        )
-
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
-            modifier = Modifier.padding(start = 10.dp)
-        ) {
-            DataContainer(
-                icon = ImageVector.vectorResource(id = R.drawable.ic_arrow_updown),
-                data = post.ups.toString(),
-                contentDescription = stringResource(id = R.string.text_upvotes)
-            )
-            DataContainer(
-                icon = ImageVector.vectorResource(id = R.drawable.ic_comment),
-                data = post.commentsCount.toString(),
-                contentDescription = stringResource(id = R.string.text_comments)
-            )
+        item {
+            TopBar(navController)
+            TItle(post)
+            Body(post)
+            Image(post)
+            PostInfo(post)
         }
     }
+}
 
+@Composable
+private fun PostInfo(post: Post) {
+    Row(
+        horizontalArrangement = Arrangement.spacedBy(10.dp),
+        modifier = Modifier.padding(start = 10.dp, bottom = 30.dp)
+    ) {
+        DataContainer(
+            icon = ImageVector.vectorResource(id = R.drawable.ic_arrow_updown),
+            data = post.ups.toString(),
+            contentDescription = stringResource(id = R.string.text_upvotes)
+        )
+        DataContainer(
+            icon = ImageVector.vectorResource(id = R.drawable.ic_comment),
+            data = post.commentsCount.toString(),
+            contentDescription = stringResource(id = R.string.text_comments)
+        )
+    }
+}
+
+@Composable
+private fun Image(post: Post) {
+    AsyncImage(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(post.imageUrl)
+            .crossfade(true)
+            .build(),
+        contentDescription = stringResource(R.string.text_post_image),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(10.dp)
+    )
+}
+
+@Composable
+private fun Body(post: Post) {
+    Text(
+        text = post.body,
+        color = textColor(),
+        style = MaterialTheme.typography.bodyMedium,
+        modifier = Modifier.padding(top = 10.dp, start = 10.dp, end = 10.dp),
+        textAlign = TextAlign.Start,
+    )
+}
+
+@Composable
+private fun TItle(post: Post) {
+    Text(
+        text = post.title,
+        color = textColor(),
+        style = MaterialTheme.typography.titleLarge,
+        modifier = Modifier.padding(horizontal = 10.dp),
+        textAlign = TextAlign.Start,
+        fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+@OptIn(ExperimentalMaterial3Api::class)
+private fun TopBar(navController: NavController) {
+    TopAppBar(
+        title = {
+            Image(
+                imageVector = ImageVector.vectorResource(id = R.drawable.ic_reddit_logo),
+                contentDescription = null,
+                modifier = Modifier
+                    .height(30.dp)
+                    .width(90.dp),
+                contentScale = ContentScale.FillBounds
+            )
+        },
+        colors = TopAppBarColors(
+            containerColor = Color.Transparent,
+            Color.Unspecified,
+            Color.Unspecified,
+            Color.Unspecified,
+            Color.Unspecified
+        ),
+        navigationIcon = {
+            IconButton(onClick = { navController.navigateUp() }) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                    tint = textColor(),
+                    contentDescription = stringResource(R.string.text_return),
+                    modifier = Modifier
+                        .size(40.dp)
+                        .padding(10.dp)
+                )
+            }
+        }
+    )
 }
 
 @Composable
@@ -146,6 +163,7 @@ fun DataContainer(icon: ImageVector, data: String, contentDescription: String) {
     ) {
         Icon(
             imageVector = icon,
+            tint = textColor(),
             contentDescription = contentDescription,
             modifier = Modifier
                 .size(40.dp)
@@ -153,6 +171,7 @@ fun DataContainer(icon: ImageVector, data: String, contentDescription: String) {
         )
         Text(
             text = data,
+            color = textColor(),
             style = MaterialTheme.typography.bodyMedium,
             modifier = Modifier.padding(end = 15.dp),
             textAlign = TextAlign.Center,

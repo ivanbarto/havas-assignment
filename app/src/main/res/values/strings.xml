@@ -8,18 +8,9 @@
     <string name="text_by_user">By %1$s</string>
     <string name="text_unknown_error">An unknown error has happened. Please, refresh and try again.</string>
     <string name="text_not_connected">You are not connected to internet. Offline mode on!</string>
-    <string name="subtitle_http_url">HTTP url</string>
-    <string name="subtitle_ssh_url">SSH url</string>
-    <string name="text_view_on_github">View on GitHub</string>
-    <string name="text_copied">Copied to clipboard!</string>
     <string name="text_retry">retry</string>
     <string name="text_no_internet">No Internet Connection</string>
-    <string name="text_last_update">Last update: %1$s</string>
-    <string name="text_created_at">Created at: %1$s</string>
-    <string name="text_share_url_message">Hey! Have a look at this cool repo that I\'ve found: %1$s</string>
-    <string name="text_share_repo">Share repo</string>
     <string name="text_clean_cache">clean cache</string>
     <string name="text_error">Error: %1$s</string>
     <string name="text_generic_error">An error has happened</string>
-
 </resources>
