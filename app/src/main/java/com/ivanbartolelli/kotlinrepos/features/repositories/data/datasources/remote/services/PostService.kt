@@ -11,7 +11,6 @@ interface PostService {
     @GET(PostUrls.POSTS)
     suspend fun getPosts(
         @Query("after") nextId: String?,
-        @Query("before") previousId: String?,
         @Query("limit") limit: Int
     ): BaseResponseDto<PostDto>
 }

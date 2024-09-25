@@ -32,7 +32,6 @@ class PostRemoteMediator(
 
             val postsResponse = service.getPosts(
                 nextId = currentPagingInfo?.nextId,
-                previousId = currentPagingInfo?.previousId,
                 limit = PostsConstants.ITEMS_PER_PAGE
             ).also { response ->
                 response.data.children.forEach { postDto ->
@@ -51,7 +50,6 @@ class PostRemoteMediator(
                 val postsPagingInfo = postsResponse.data.children.map { postDto ->
                     PostPagingInfoEntity(
                         id = postDto.data.id,
-                        previousId = postsResponse.data.previousId,
                         nextId = postsResponse.data.nextId,
                         timestamp = postDto.data.timestamp
                     )
@@ -62,10 +60,10 @@ class PostRemoteMediator(
                     .insertAll(postsResponse.data.children.map { postDto -> postDto.data.toEntity() })
             }
 
-            MediatorResult.Success(
-                endOfPaginationReached = endOfPaginationReached
-            )
-
+            when (loadType) {
+                LoadType.PREPEND -> MediatorResult.Success(endOfPaginationReached = true)
+                else -> MediatorResult.Success(endOfPaginationReached = endOfPaginationReached)
+            }
         } catch (e: Exception) {
             MediatorResult.Error(e)
         }
@@ -79,22 +77,11 @@ class PostRemoteMediator(
     ): PostPagingInfoEntity? {
         return when (loadType) {
             LoadType.REFRESH -> {
-                database.postsPagingInfoDao().getNewest()
-                    ?: kotlin.run {
-                        state.anchorPosition?.let { position ->
-                            state.closestItemToPosition(position)?.id?.let { id ->
-                                database.postsPagingInfoDao().get(id)
-                            }
-                        }
-                    }
+                null
             }
 
             LoadType.PREPEND -> {
-                state.pages.firstOrNull { page ->
-                    page.data.isNotEmpty()
-                }?.data?.firstOrNull()?.id?.let { id ->
-                    database.postsPagingInfoDao().get(id)
-                }
+                null
             }
 
             LoadType.APPEND -> {
@@ -106,5 +93,4 @@ class PostRemoteMediator(
             }
         }
     }
-
 }

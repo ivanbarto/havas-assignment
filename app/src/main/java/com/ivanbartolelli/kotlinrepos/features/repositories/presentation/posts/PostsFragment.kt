@@ -79,8 +79,7 @@ class PostsFragment : BaseFragment() {
                 adapter.onPostClick = { navigateToDetails(it) }
             }
 
-            adapter = postsAdapter.withLoadStateHeaderAndFooter(
-                PostsLoadStateAdapter(postsAdapter),
+            adapter = postsAdapter.withLoadStateFooter(
                 PostsLoadStateAdapter(postsAdapter)
             )
         }

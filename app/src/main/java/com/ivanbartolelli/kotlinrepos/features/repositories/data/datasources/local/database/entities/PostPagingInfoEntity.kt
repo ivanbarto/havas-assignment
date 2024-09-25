@@ -9,6 +9,5 @@ data class PostPagingInfoEntity(
     @PrimaryKey
     val id: String,
     val nextId: String?,
-    val previousId: String?,
     val timestamp: Long
 )

@@ -12,8 +12,6 @@ data class BaseResponseDto<T>(
 data class BaseDataDto<T>(
     @SerializedName("after")
     val nextId: String?,
-    @SerializedName("before")
-    val previousId: String?,
     @SerializedName("children")
     val children: List<BaseChildrenDto<T>>,
 )
