@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories
+package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.posts
 
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -8,13 +8,12 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class RepositoriesViewModel @Inject constructor(private val paginatedPostsRepo: PostsRepo) :
+class PostsViewModel @Inject constructor(private val paginatedPostsRepo: PostsRepo) :
     BaseViewModel() {
 
     val repositories = paginatedPostsRepo.getPosts().cachedIn(viewModelScope)
 
-    suspend fun clearRepositoriesCache() {
+    suspend fun cleanPostsCache() {
         paginatedPostsRepo.cleanPostsCache()
     }
-
 }

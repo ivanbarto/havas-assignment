@@ -11,6 +11,7 @@ data class Post(
     val id: String?,
     val permalink: String,
     val imageUrl: String,
+    val thumbnail: String,
     val title: String,
     val body: String,
     val author: String,
@@ -30,4 +31,4 @@ data class Post(
 
 
 fun PostEntity.toPost(): Post =
-    Post(id, permalink, imageUrl, title, body, author, commentsCount, ups, timestamp)
+    Post(id, permalink, imageUrl, thumbnail, title, body, author, commentsCount, ups, timestamp)

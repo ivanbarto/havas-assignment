@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters
+package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.posts.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,12 +7,17 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import com.ivanbartolelli.kotlinrepos.R
 import com.ivanbartolelli.kotlinrepos.core.presentation.BaseViewHolder
-import com.ivanbartolelli.kotlinrepos.databinding.RepositoryNetworkStateItemBinding
+import com.ivanbartolelli.kotlinrepos.databinding.PostNetworkStateItemBinding
 
-class RepositoriesLoadStateAdapter(private val postsAdapter: PostsAdapter) : LoadStateAdapter<BaseViewHolder<LoadState>>() {
+class PostsLoadStateAdapter(private val postsAdapter: PostsAdapter) :
+    LoadStateAdapter<BaseViewHolder<LoadState>>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, loadState: LoadState): BaseViewHolder<LoadState> {
-        val itemBinding = RepositoryNetworkStateItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        loadState: LoadState
+    ): BaseViewHolder<LoadState> {
+        val itemBinding =
+            PostNetworkStateItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return NetworkStateItemViewHolder(itemBinding) { postsAdapter.retry() }
     }
@@ -22,7 +27,7 @@ class RepositoriesLoadStateAdapter(private val postsAdapter: PostsAdapter) : Loa
     }
 
     inner class NetworkStateItemViewHolder(
-        private val itemBinding: RepositoryNetworkStateItemBinding,
+        private val itemBinding: PostNetworkStateItemBinding,
         private val retryCallback: () -> Unit
     ) : BaseViewHolder<LoadState>(itemBinding.root) {
 

@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters
+package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.posts.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,26 +7,26 @@ import androidx.recyclerview.widget.DiffUtil
 import coil.load
 import com.ivanbartolelli.kotlinrepos.R
 import com.ivanbartolelli.kotlinrepos.core.presentation.BaseViewHolder
-import com.ivanbartolelli.kotlinrepos.databinding.RepositoryItemBinding
+import com.ivanbartolelli.kotlinrepos.databinding.PostItemBinding
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Post
 import javax.inject.Inject
 
 class PostsAdapter @Inject constructor() : PagingDataAdapter<Post, BaseViewHolder<Post>>(PostComparator) {
 
-    lateinit var onRepositoryClick: (post: Post) -> Unit
+    lateinit var onPostClick: (post: Post) -> Unit
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Post> {
 
-        val itemBinding = RepositoryItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val itemBinding = PostItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        val holder = RepositoryViewHolder(parent, itemBinding)
+        val holder = RepositoryViewHolder(itemBinding)
 
         itemBinding.root.setOnClickListener {
             val position =
                 holder.bindingAdapterPosition.takeIf { it != DiffUtil.DiffResult.NO_POSITION }
                     ?: return@setOnClickListener
             getItem(position)?.let { repository ->
-                onRepositoryClick(repository)
+                onPostClick(repository)
             }
         }
 
@@ -37,19 +37,20 @@ class PostsAdapter @Inject constructor() : PagingDataAdapter<Post, BaseViewHolde
         getItem(position)?.let { holder.bind(it) }
     }
 
-    inner class RepositoryViewHolder(private val parent: ViewGroup, private val itemBinding: RepositoryItemBinding) :
+    inner class RepositoryViewHolder(private val itemBinding: PostItemBinding) :
         BaseViewHolder<Post>(itemBinding.root) {
 
         override fun bind(item: Post): Unit = with(itemBinding) {
-            tvRepositoryName.text = item.title
-            tvUserName.text = parent.context.getString(R.string.text_by_user, item.author)
-            tvWatchers.text = item.commentsCount.toString()
-
-            ivUser.ivContent.load(item.imageUrl) {
+            tvTitle.text = item.title
+            ivPreview.load(item.imageUrl) {
                 crossfade(true)
-                placeholder(R.drawable.ic_user)
-                error(R.drawable.ic_user)
             }
+
+            cardUpVotes.ivDataIcon.setImageResource(R.drawable.ic_arrow_updown)
+            cardUpVotes.tvData.text = item.ups.toString()
+
+            cardComments.ivDataIcon.setImageResource(R.drawable.ic_comment)
+            cardComments.tvData.text = item.commentsCount.toString()
         }
     }
 

@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories
+package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.posts
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.ivanbartolelli.kotlinrepos.core.presentation.BaseFragment
-import com.ivanbartolelli.kotlinrepos.databinding.RepositoriesFragmentBinding
+import com.ivanbartolelli.kotlinrepos.databinding.PostsFragmentBinding
 import com.ivanbartolelli.kotlinrepos.features.repositories.domain.models.Post
-import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.PostsAdapter
-import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.adapters.RepositoriesLoadStateAdapter
+import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.posts.adapters.PostsAdapter
+import com.ivanbartolelli.kotlinrepos.features.repositories.presentation.posts.adapters.PostsLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -24,48 +24,48 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RepositoriesFragment : BaseFragment() {
+class PostsFragment : BaseFragment() {
 
-    private lateinit var binding: RepositoriesFragmentBinding
+    private lateinit var binding: PostsFragmentBinding
 
-    private val repositoriesViewModel by viewModels<RepositoriesViewModel>()
+    private val postsViewModel by viewModels<PostsViewModel>()
 
     private var postsAdapter: PostsAdapter = PostsAdapter()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        return RepositoriesFragmentBinding.inflate(inflater, container, false).also { binding = it }.root
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        return PostsFragmentBinding.inflate(inflater, container, false).also { binding = it }.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
         setupView()
-        observeRepositories()
+        getPosts()
     }
 
     private fun setupView() {
         binding.btnCleanCache.setOnClickListener {
             CoroutineScope(Dispatchers.IO).launch {
-                repositoriesViewModel.clearRepositoriesCache()
+                postsViewModel.cleanPostsCache()
                 postsAdapter.refresh()
             }
         }
         setupRecyclerView()
     }
 
-    private fun observeRepositories() {
-
+    private fun getPosts() {
         viewLifecycleOwner.lifecycleScope.launch {
-
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-
-                repositoriesViewModel.repositories.collectLatest { pagingData ->
+                postsViewModel.repositories.collectLatest { pagingData ->
                     postsAdapter.submitData(pagingData)
                 }
             }
         }
     }
-
 
     private fun setupRecyclerView() {
         binding.rvRepositories.apply {
@@ -76,21 +76,19 @@ class RepositoriesFragment : BaseFragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
 
             postsAdapter.also { adapter ->
-                adapter.onRepositoryClick = { navigateToDetails(it) }
+                adapter.onPostClick = { navigateToDetails(it) }
             }
 
             adapter = postsAdapter.withLoadStateHeaderAndFooter(
-                RepositoriesLoadStateAdapter(postsAdapter),
-                RepositoriesLoadStateAdapter(postsAdapter)
+                PostsLoadStateAdapter(postsAdapter),
+                PostsLoadStateAdapter(postsAdapter)
             )
         }
     }
 
-
     private fun navigateToDetails(it: Post) {
-        val direction = RepositoriesFragmentDirections.actionRepositoriesFragmentToRepositoryDetailFragment(it)
+        val direction =
+            PostsFragmentDirections.actionPostsFragmentToPostDetailFragment(it)
         findNavController().navigate(direction)
     }
-
-
 }

@@ -13,6 +13,7 @@ data class PostEntity(
     val id: String,
     val permalink: String,
     val imageUrl: String,
+    val thumbnail: String,
     val title: String,
     val body: String,
     val author: String,
@@ -22,5 +23,5 @@ data class PostEntity(
 )
 
 fun PostDto.toEntity(): PostEntity {
-    return PostEntity(id, permalink, imageUrl, title, body, author, commentsCount, ups, timestamp)
+    return PostEntity(id, permalink, imageUrl, thumbnail, title, body, author, commentsCount, ups, timestamp)
 }

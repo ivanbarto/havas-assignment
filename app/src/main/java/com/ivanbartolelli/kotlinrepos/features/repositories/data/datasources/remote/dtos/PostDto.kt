@@ -9,6 +9,8 @@ data class PostDto(
     val permalink: String,
     @SerializedName("url")
     val imageUrl: String,
+    @SerializedName("thumbnail")
+    val thumbnail: String,
     @SerializedName("title")
     val title: String,
     @SerializedName("selftext")

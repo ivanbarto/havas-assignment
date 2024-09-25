@@ -2,21 +2,21 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/repositoriesFragment">
+    app:startDestination="@id/postsFragment">
 
     <fragment
-        android:id="@+id/repositoriesFragment"
-        android:name="com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositories.RepositoriesFragment">
+        android:id="@+id/postsFragment"
+        android:name="com.ivanbartolelli.kotlinrepos.features.repositories.presentation.posts.PostsFragment">
         <action
-            android:id="@+id/action_repositoriesFragment_to_repositoryDetailFragment"
-            app:destination="@id/repositoryDetailFragment"
+            android:id="@+id/action_postsFragment_to_postDetailFragment"
+            app:destination="@id/postDetailFragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popExitAnim="@anim/slide_out_right"
             app:popEnterAnim="@anim/slide_in_left" />
     </fragment>
     <fragment
-        android:id="@+id/repositoryDetailFragment"
+        android:id="@+id/postDetailFragment"
         android:name="com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositoryDetail.RepositoryDetailFragment">
         <argument
             android:name="post"
