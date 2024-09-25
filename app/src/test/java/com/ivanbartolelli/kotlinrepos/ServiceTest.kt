@@ -28,13 +28,12 @@ class ServiceTest {
             )
         )
 
-        val repositories = service.getPosts(
-            language = "language:kotlin",
-            page = 1,
-            itemsPerPage = itemsPerPage
+        val posts = service.getPosts(
+            nextId = null,
+            limit = itemsPerPage
         )
 
-        assertEquals(itemsPerPage, repositories.items.count())
+        assertEquals(itemsPerPage, posts.data.children.count())
     }
 
     private fun provideOkHttpClient(): OkHttpClient {

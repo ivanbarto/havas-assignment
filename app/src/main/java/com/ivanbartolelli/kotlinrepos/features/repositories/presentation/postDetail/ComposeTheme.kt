@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositoryDetail
+package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.postDetail
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable

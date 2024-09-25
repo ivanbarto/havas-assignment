@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositoryDetail
+package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.postDetail
 
 import android.os.Bundle
 import android.view.LayoutInflater

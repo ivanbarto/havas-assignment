@@ -1,4 +1,4 @@
-package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.repositoryDetail
+package com.ivanbartolelli.kotlinrepos.features.repositories.presentation.postDetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
