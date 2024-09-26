@@ -44,7 +44,6 @@ class PostsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         setupView()
         getPosts()
     }
@@ -59,6 +58,7 @@ class PostsFragment : BaseFragment() {
         binding.error.retryButton.setOnClickListener {
             postsAdapter.retry()
         }
+
 
         setupRecyclerView()
     }
@@ -83,9 +83,14 @@ class PostsFragment : BaseFragment() {
             addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
 
             postsAdapter.apply {
-                addLoadStateListener {
-                    binding.error.container.isVisible = it.refresh is LoadState.Error
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        loadStateFlow.collectLatest {
+                            binding.error.container.isVisible = it.refresh is LoadState.Error
+                        }
+                    }
                 }
+
                 onPostClick = { navigateToDetails(it) }
             }
 
