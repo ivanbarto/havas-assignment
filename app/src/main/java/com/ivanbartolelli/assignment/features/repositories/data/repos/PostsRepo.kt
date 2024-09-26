@@ -6,6 +6,4 @@ import kotlinx.coroutines.flow.Flow
 
 interface PostsRepo {
     fun getPosts(): Flow<PagingData<Post>>
-
-    suspend fun cleanPostsCache()
 }

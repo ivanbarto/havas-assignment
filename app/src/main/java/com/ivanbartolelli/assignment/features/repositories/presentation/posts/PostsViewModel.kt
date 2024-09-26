@@ -8,12 +8,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class PostsViewModel @Inject constructor(private val paginatedPostsRepo: PostsRepo) :
+class PostsViewModel @Inject constructor(paginatedPostsRepo: PostsRepo) :
     BaseViewModel() {
 
     val repositories = paginatedPostsRepo.getPosts().cachedIn(viewModelScope)
-
-    suspend fun cleanPostsCache() {
-        paginatedPostsRepo.cleanPostsCache()
-    }
 }

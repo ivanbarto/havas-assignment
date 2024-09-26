@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
+import androidx.paging.LoadState
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
@@ -50,10 +52,14 @@ class PostsFragment : BaseFragment() {
     private fun setupView() {
         binding.swipeContainer.setOnRefreshListener {
             CoroutineScope(Dispatchers.IO).launch {
-                postsViewModel.cleanPostsCache()
                 postsAdapter.refresh()
             }
         }
+
+        binding.error.retryButton.setOnClickListener {
+            postsAdapter.retry()
+        }
+
         setupRecyclerView()
     }
 
@@ -76,8 +82,11 @@ class PostsFragment : BaseFragment() {
 
             addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
 
-            postsAdapter.also { adapter ->
-                adapter.onPostClick = { navigateToDetails(it) }
+            postsAdapter.apply {
+                addLoadStateListener {
+                    binding.error.container.isVisible = it.refresh is LoadState.Error
+                }
+                onPostClick = { navigateToDetails(it) }
             }
 
             adapter = postsAdapter.withLoadStateFooter(

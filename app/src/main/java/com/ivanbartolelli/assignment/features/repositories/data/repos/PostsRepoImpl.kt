@@ -27,10 +27,6 @@ class PostsRepoImpl(
         },
         remoteMediator = PostRemoteMediator(postService, database)
     ).flow.map { it.map { data -> data.toPost() } }
-
-    override suspend fun cleanPostsCache() {
-        database.clearAllTables()
-    }
 }
 
 

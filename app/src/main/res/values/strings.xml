@@ -9,8 +9,7 @@
     <string name="text_unknown_error">An unknown error has happened. Please, refresh and try again.</string>
     <string name="text_not_connected">You are not connected to internet. Offline mode on!</string>
     <string name="text_retry">retry</string>
-    <string name="text_no_internet">No Internet Connection</string>
     <string name="text_clean_cache">clean cache</string>
     <string name="text_error">Error: %1$s</string>
-    <string name="text_generic_error">An error has happened</string>
+    <string name="text_generic_error">Something went wrong</string>
 </resources>
