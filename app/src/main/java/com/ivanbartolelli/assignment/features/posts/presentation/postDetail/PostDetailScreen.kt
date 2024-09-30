@@ -51,7 +51,7 @@ fun PostDetailScreen(
     ) {
         item {
             TopBar(navController)
-            TItle(post)
+            Title(post)
             Body(post)
             Image(post)
             PostInfo(post)
@@ -104,7 +104,7 @@ private fun Body(post: Post) {
 }
 
 @Composable
-private fun TItle(post: Post) {
+private fun Title(post: Post) {
     Text(
         text = post.title,
         color = textColor(),
