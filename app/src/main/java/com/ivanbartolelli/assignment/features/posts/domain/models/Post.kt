@@ -18,17 +18,7 @@ data class Post(
     val commentsCount: Int,
     val ups: Int,
     val timestamp: Long
-) : Parcelable {
-
-    fun httpUrl(): String = "https://reddit.com$permalink"
-
-    fun urlAsUri(): Uri? = try {
-        Uri.parse(httpUrl())
-    } catch (e: Exception) {
-        null
-    }
-}
-
+) : Parcelable
 
 fun PostEntity.toPost(): Post =
     Post(id, permalink, imageUrl, thumbnail, title, body, author, commentsCount, ups, timestamp)
