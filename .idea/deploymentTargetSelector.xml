@@ -8,6 +8,9 @@
       <SelectionState runConfigName="RemoteMediatorTest">
         <option name="selectionMode" value="DROPDOWN" />
       </SelectionState>
+      <SelectionState runConfigName="remoteMediator_appendsDataSuccessfully()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
     </selectionStates>
   </component>
 </project>

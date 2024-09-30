@@ -2,7 +2,7 @@ package com.ivanbartolelli.assignment.core.di.modules
 
 import com.google.gson.GsonBuilder
 import com.ivanbartolelli.assignment.BuildConfig
-import com.ivanbartolelli.assignment.features.repositories.data.datasources.remote.services.PostService
+import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.services.PostService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

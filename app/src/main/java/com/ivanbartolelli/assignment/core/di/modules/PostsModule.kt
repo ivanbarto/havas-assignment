@@ -1,9 +1,9 @@
 package com.ivanbartolelli.assignment.core.di.modules
 
-import com.ivanbartolelli.assignment.features.repositories.data.datasources.local.database.PostsDatabase
-import com.ivanbartolelli.assignment.features.repositories.data.datasources.remote.services.PostService
-import com.ivanbartolelli.assignment.features.repositories.data.repos.PostsRepo
-import com.ivanbartolelli.assignment.features.repositories.data.repos.PostsRepoImpl
+import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.PostsDatabase
+import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.services.PostService
+import com.ivanbartolelli.assignment.features.posts.data.repos.PostsRepo
+import com.ivanbartolelli.assignment.features.posts.data.repos.PostsRepoImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

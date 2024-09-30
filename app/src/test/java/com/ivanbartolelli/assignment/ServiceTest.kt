@@ -1,7 +1,7 @@
 package com.ivanbartolelli.assignment
 
 import com.google.gson.GsonBuilder
-import com.ivanbartolelli.assignment.features.repositories.data.datasources.remote.services.PostService
+import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.services.PostService
 import kotlinx.coroutines.test.runTest
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor

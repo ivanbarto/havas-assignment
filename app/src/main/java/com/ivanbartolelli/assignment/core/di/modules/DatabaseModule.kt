@@ -2,8 +2,8 @@ package com.ivanbartolelli.assignment.core.di.modules
 
 import android.app.Application
 import androidx.room.Room
-import com.ivanbartolelli.assignment.features.repositories.data.datasources.local.database.PostsDatabase
-import com.ivanbartolelli.assignment.features.repositories.data.datasources.local.database.utils.DatabaseConstants.DATABASE_NAME
+import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.PostsDatabase
+import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.utils.DatabaseConstants.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
