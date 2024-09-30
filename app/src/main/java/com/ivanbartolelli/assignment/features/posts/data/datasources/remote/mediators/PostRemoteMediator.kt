@@ -76,11 +76,7 @@ class PostRemoteMediator(
         database: PostsDatabase
     ): PostPagingInfoEntity? {
         return when (loadType) {
-            LoadType.REFRESH -> {
-                null
-            }
-
-            LoadType.PREPEND -> {
+            LoadType.PREPEND, LoadType.REFRESH -> {
                 null
             }
 
