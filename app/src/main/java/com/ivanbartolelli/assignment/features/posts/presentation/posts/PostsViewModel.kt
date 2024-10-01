@@ -11,5 +11,5 @@ import javax.inject.Inject
 class PostsViewModel @Inject constructor(paginatedPostsRepo: PostsRepo) :
     BaseViewModel() {
 
-    val repositories = paginatedPostsRepo.getPosts().cachedIn(viewModelScope)
+    val posts = paginatedPostsRepo.getPosts().cachedIn(viewModelScope)
 }
