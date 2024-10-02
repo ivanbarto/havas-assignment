@@ -1,6 +1,5 @@
 package com.ivanbartolelli.assignment.features.posts.domain.models
 
-import android.net.Uri
 import android.os.Parcelable
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.entities.PostEntity
 import kotlinx.parcelize.Parcelize
