@@ -21,5 +21,6 @@ data class PostDto(
     val commentsCount: Int,
     @SerializedName("ups")
     val ups: Int,
-    var timestamp: Long
+    var timestamp: Long,
+    var nextPageId: String?
 )

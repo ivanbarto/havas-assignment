@@ -7,7 +7,6 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.PostsDatabase
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.entities.PostEntity
-import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.entities.PostPagingInfoEntity
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.entities.toEntity
 import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.services.PostService
 import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.utils.PostsConstants
@@ -30,14 +29,15 @@ class PostRemoteMediator(
             when (loadType) {
                 LoadType.PREPEND -> MediatorResult.Success(endOfPaginationReached = true)
                 else -> {
-                    val currentPagingInfo = getCurrentPagingInfo(loadType, state, database)
+                    val currentPagingInfo = nextPageId(loadType, database)
 
                     val postsResponse = service.getPosts(
-                        nextId = currentPagingInfo?.nextId,
+                        nextId = currentPagingInfo,
                         limit = PostsConstants.ITEMS_PER_PAGE
                     ).also { response ->
                         response.data.children.forEach { postDto ->
                             postDto.data.timestamp = System.currentTimeMillis()
+                            postDto.data.nextPageId = response.data.nextId
                         }
                     }
 
@@ -45,19 +45,9 @@ class PostRemoteMediator(
 
                     database.withTransaction {
                         if (loadType == LoadType.REFRESH) {
-                            database.postsPagingInfoDao().clearAll()
                             database.postsDao().clearAll()
                         }
 
-                        val postsPagingInfo = postsResponse.data.children.map { postDto ->
-                            PostPagingInfoEntity(
-                                id = postDto.data.id,
-                                nextId = postsResponse.data.nextId,
-                                timestamp = postDto.data.timestamp
-                            )
-                        }
-
-                        database.postsPagingInfoDao().insertAll(postsPagingInfo)
                         database.postsDao()
                             .insertAll(postsResponse.data.children.map { postDto -> postDto.data.toEntity() })
                     }
@@ -70,22 +60,17 @@ class PostRemoteMediator(
     }
 
 
-    private suspend fun getCurrentPagingInfo(
+    private suspend fun nextPageId(
         loadType: LoadType,
-        state: PagingState<Int, PostEntity>,
         database: PostsDatabase
-    ): PostPagingInfoEntity? {
+    ): String? {
         return when (loadType) {
             LoadType.PREPEND, LoadType.REFRESH -> {
                 null
             }
 
             LoadType.APPEND -> {
-                state.pages.lastOrNull { page ->
-                    page.data.isNotEmpty()
-                }?.data?.lastOrNull()?.id?.let { id ->
-                    database.postsPagingInfoDao().get(id)
-                }
+                database.postsDao().getLastInserted().nextPageId
             }
         }
     }

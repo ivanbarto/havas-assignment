@@ -18,9 +18,22 @@ data class PostEntity(
     val author: String,
     val commentsCount: Int,
     val ups: Int,
-    val timestamp: Long
+    val timestamp: Long,
+    val nextPageId: String?
 )
 
 fun PostDto.toEntity(): PostEntity {
-    return PostEntity(id, permalink, imageUrl, thumbnail, title, body, author, commentsCount, ups, timestamp)
+    return PostEntity(
+        id,
+        permalink,
+        imageUrl,
+        thumbnail,
+        title,
+        body,
+        author,
+        commentsCount,
+        ups,
+        timestamp,
+        nextPageId
+    )
 }

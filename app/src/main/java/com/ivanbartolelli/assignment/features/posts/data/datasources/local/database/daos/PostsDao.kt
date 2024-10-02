@@ -19,4 +19,7 @@ interface PostsDao {
 
     @Query("SELECT * FROM $POST_TABLE_NAME ORDER BY timestamp ASC")
     fun getPosts(): PagingSource<Int, PostEntity>
+
+    @Query("SELECT * FROM $POST_TABLE_NAME ORDER BY timestamp DESC LIMIT 1")
+    suspend fun getLastInserted(): PostEntity
 }
