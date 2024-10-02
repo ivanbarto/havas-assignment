@@ -66,9 +66,13 @@ class PostsFragment : BaseFragment() {
     private fun getPosts() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                postsViewModel.posts.collectLatest { pagingData ->
+                postsViewModel.screenState.collectLatest { pagingData ->
                     binding.swipeContainer.isRefreshing = false
-                    postsAdapter.submitData(pagingData)
+                    when (pagingData) {
+                        is ScreenState.Error -> {}
+                        ScreenState.Loading -> {}
+                        is ScreenState.Success -> postsAdapter.submitData(pagingData.data)
+                    }
                 }
             }
         }
