@@ -28,7 +28,7 @@ class ServiceTest {
             )
         )
 
-        val posts = service.getPosts(
+        val posts = service.getPostsPage(
             nextId = null,
             limit = itemsPerPage
         )

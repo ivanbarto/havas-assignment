@@ -12,7 +12,7 @@ import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.serv
 import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.utils.PostsConstants
 
 @OptIn(ExperimentalPagingApi::class)
-class PostRemoteMediator(
+class PostsRemoteMediator(
     private val service: PostService,
     private val database: PostsDatabase
 ) :
@@ -31,7 +31,7 @@ class PostRemoteMediator(
                 else -> {
                     val currentPagingInfo = nextPageId(loadType, database)
 
-                    val postsResponse = service.getPosts(
+                    val postsResponse = service.getPostsPage(
                         nextId = currentPagingInfo,
                         limit = PostsConstants.ITEMS_PER_PAGE
                     ).also { response ->

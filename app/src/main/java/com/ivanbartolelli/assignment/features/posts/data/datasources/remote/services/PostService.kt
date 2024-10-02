@@ -9,7 +9,7 @@ import retrofit2.http.Query
 interface PostService {
 
     @GET(PostUrls.POSTS)
-    suspend fun getPosts(
+    suspend fun getPostsPage(
         @Query("after") nextId: String?,
         @Query("limit") limit: Int
     ): BaseResponseDto<PostDto>

@@ -13,7 +13,7 @@ import com.google.gson.GsonBuilder
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.PostsDatabase
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.entities.PostEntity
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.utils.DatabaseConstants
-import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.mediators.PostRemoteMediator
+import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.mediators.PostsRemoteMediator
 import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.services.PostService
 import com.ivanbartolelli.assignment.features.posts.data.repos.PostsRepo
 import com.ivanbartolelli.assignment.features.posts.data.repos.PostsRepoImpl
@@ -57,7 +57,7 @@ class RemoteMediatorTest {
     fun remoteMediator_appendsDataSuccessfully() = runBlocking {
         // Add mock results for the API to return.
 
-        val remoteMediator = PostRemoteMediator(service, mockDb)
+        val remoteMediator = PostsRemoteMediator(service, mockDb)
 
         val pagingState = PagingState<Int, PostEntity>(
             listOf(),
