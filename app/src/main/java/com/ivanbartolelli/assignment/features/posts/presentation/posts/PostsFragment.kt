@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -16,7 +17,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
 import com.ivanbartolelli.assignment.R
-import com.ivanbartolelli.assignment.core.presentation.BaseFragment
+import com.ivanbartolelli.assignment.core.presentation.ScreenState
 import com.ivanbartolelli.assignment.databinding.PostsFragmentBinding
 import com.ivanbartolelli.assignment.features.posts.domain.models.Post
 import com.ivanbartolelli.assignment.features.posts.presentation.posts.adapters.PostsAdapter
@@ -28,7 +29,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PostsFragment : BaseFragment() {
+class PostsFragment : Fragment() {
 
     private lateinit var binding: PostsFragmentBinding
 
@@ -48,7 +49,6 @@ class PostsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         getPosts()
-        observeLoadState()
     }
 
     private fun setupView() {
@@ -57,27 +57,22 @@ class PostsFragment : BaseFragment() {
         setupRecyclerView()
     }
 
+
     private fun getPosts() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                postsViewModel.posts.collectLatest { posts ->
-                    showSuccessState(posts)
+                postsViewModel.screenState.collectLatest { screenState ->
+                    when (screenState) {
+                        is ScreenState.Loading -> showLoadingState()
+
+                        is ScreenState.Success ->
+                            showSuccessState(screenState.data)
+
+                        is ScreenState.Error -> showErrorState(
+                            screenState.exception.message ?: getString(R.string.text_generic_error)
+                        )
+                    }
                 }
-            }
-        }
-    }
-
-    private fun observeLoadState() {
-        postsAdapter.addLoadStateListener { loadState ->
-            when (loadState.refresh) {
-                is LoadState.Error -> showErrorState(
-                    (loadState.refresh as LoadState.Error).error.message
-                        ?: getString(R.string.text_generic_error)
-                )
-
-                LoadState.Loading -> showLoadingState()
-
-                is LoadState.NotLoading -> {}
             }
         }
     }

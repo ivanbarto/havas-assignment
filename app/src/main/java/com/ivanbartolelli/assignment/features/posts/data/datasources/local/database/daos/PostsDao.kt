@@ -6,7 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.entities.PostEntity
-import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.utils.DatabaseConstants.POST_TABLE_NAME
+import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.DatabaseConstants.POST_TABLE_NAME
 
 @Dao
 interface PostsDao {

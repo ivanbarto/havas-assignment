@@ -12,7 +12,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.google.gson.GsonBuilder
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.PostsDatabase
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.entities.PostEntity
-import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.utils.DatabaseConstants
+import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.DatabaseConstants
 import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.mediators.PostsRemoteMediator
 import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.services.PostService
 import com.ivanbartolelli.assignment.features.posts.data.repos.PostsRepo

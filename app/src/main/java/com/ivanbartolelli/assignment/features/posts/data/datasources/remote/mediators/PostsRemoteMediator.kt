@@ -8,8 +8,12 @@ import androidx.room.withTransaction
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.PostsDatabase
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.entities.PostEntity
 import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.entities.toEntity
+import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.mediators.RemoteMediatorConstants.ITEMS_PER_PAGE
 import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.services.PostService
-import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.utils.PostsConstants
+
+private object RemoteMediatorConstants {
+    const val ITEMS_PER_PAGE = 7
+}
 
 @OptIn(ExperimentalPagingApi::class)
 class PostsRemoteMediator(
@@ -33,7 +37,7 @@ class PostsRemoteMediator(
 
                     val postsResponse = service.getPostsPage(
                         nextId = currentPagingInfo,
-                        limit = PostsConstants.ITEMS_PER_PAGE
+                        limit = ITEMS_PER_PAGE
                     ).also { response ->
                         response.data.children.forEach { postDto ->
                             postDto.data.timestamp = System.currentTimeMillis()

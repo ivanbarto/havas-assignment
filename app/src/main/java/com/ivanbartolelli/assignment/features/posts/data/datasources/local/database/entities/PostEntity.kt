@@ -2,7 +2,7 @@ package com.ivanbartolelli.assignment.features.posts.data.datasources.local.data
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.utils.DatabaseConstants.POST_TABLE_NAME
+import com.ivanbartolelli.assignment.features.posts.data.datasources.local.database.DatabaseConstants.POST_TABLE_NAME
 import com.ivanbartolelli.assignment.features.posts.data.datasources.remote.dtos.PostDto
 
 @Entity(tableName = POST_TABLE_NAME)
