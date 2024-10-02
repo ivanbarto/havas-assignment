@@ -11,9 +11,11 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
+import com.ivanbartolelli.assignment.R
 import com.ivanbartolelli.assignment.core.presentation.BaseFragment
 import com.ivanbartolelli.assignment.databinding.PostsFragmentBinding
 import com.ivanbartolelli.assignment.features.posts.domain.models.Post
@@ -46,34 +48,50 @@ class PostsFragment : BaseFragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         getPosts()
+        observeLoadState()
     }
 
     private fun setupView() {
-        binding.swipeContainer.setOnRefreshListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                postsAdapter.refresh()
-            }
-        }
-
-        binding.error.retryButton.setOnClickListener {
-            postsAdapter.retry()
-        }
-
-
+        setupRefresh()
+        setupRetryButton()
         setupRecyclerView()
     }
 
     private fun getPosts() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                postsViewModel.screenState.collectLatest { pagingData ->
-                    binding.swipeContainer.isRefreshing = false
-                    when (pagingData) {
-                        is ScreenState.Error -> {}
-                        ScreenState.Loading -> {}
-                        is ScreenState.Success -> postsAdapter.submitData(pagingData.data)
-                    }
+                postsViewModel.posts.collectLatest { posts ->
+                    showSuccessState(posts)
                 }
+            }
+        }
+    }
+
+    private fun observeLoadState() {
+        postsAdapter.addLoadStateListener { loadState ->
+            when (loadState.refresh) {
+                is LoadState.Error -> showErrorState(
+                    (loadState.refresh as LoadState.Error).error.message
+                        ?: getString(R.string.text_generic_error)
+                )
+
+                LoadState.Loading -> showLoadingState()
+
+                is LoadState.NotLoading -> {}
+            }
+        }
+    }
+
+    private fun setupRetryButton() {
+        binding.error.retryButton.setOnClickListener {
+            postsAdapter.retry()
+        }
+    }
+
+    private fun setupRefresh() {
+        binding.swipeContainer.setOnRefreshListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                postsAdapter.refresh()
             }
         }
     }
@@ -86,23 +104,45 @@ class PostsFragment : BaseFragment() {
 
             addItemDecoration(DividerItemDecoration(requireContext(), VERTICAL))
 
-            postsAdapter.apply {
-                viewLifecycleOwner.lifecycleScope.launch {
-                    viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        loadStateFlow.collectLatest {
-                            binding.error.container.isVisible = it.refresh is LoadState.Error
-                        }
-                    }
-                }
-
-                onPostClick = { navigateToDetails(it) }
-            }
+            setupAdapter()
 
             adapter = postsAdapter.withLoadStateFooter(
                 PostsLoadStateAdapter(postsAdapter)
             )
         }
     }
+
+    private fun setupAdapter(): PostsAdapter =
+        postsAdapter.apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    loadStateFlow.collectLatest {
+                        binding.error.container.isVisible = it.refresh is LoadState.Error
+                    }
+                }
+            }
+
+            onPostClick = { navigateToDetails(it) }
+        }
+
+
+    private fun showLoadingState() {
+        binding.swipeContainer.isRefreshing = true
+        binding.error.container.isVisible = false
+    }
+
+    private suspend fun showSuccessState(posts: PagingData<Post>) {
+        binding.swipeContainer.isRefreshing = false
+        binding.error.container.isVisible = false
+        postsAdapter.submitData(posts)
+    }
+
+    private fun showErrorState(errorMessage: String) {
+        binding.swipeContainer.isRefreshing = false
+        binding.error.container.isVisible = true
+        binding.error.errorMsg.text = errorMessage
+    }
+
 
     private fun navigateToDetails(it: Post) {
         val direction =

@@ -17,30 +17,6 @@ import javax.inject.Inject
 class PostsViewModel @Inject constructor(private val postsInteractor: PostsInteractor) :
     BaseViewModel() {
 
-    private val _screenState = MutableStateFlow<ScreenState<PagingData<Post>>>(ScreenState.Loading)
-    val screenState: StateFlow<ScreenState<PagingData<Post>>> = _screenState
-
-    init {
-        fetchPosts()
-    }
-
-    private fun fetchPosts() {
-        viewModelScope.launch {
-            try {
-                postsInteractor.getPosts()
-                    .cachedIn(viewModelScope)
-                    .collectLatest { pagingData ->
-                        _screenState.value = ScreenState.Success(pagingData)
-                    }
-            } catch (e: Exception) {
-                _screenState.value = ScreenState.Error(e)
-            }
-        }
-    }
-}
-
-sealed class ScreenState<out T> {
-    object Loading : ScreenState<Nothing>()
-    data class Success<out T>(val data: T) : ScreenState<T>()
-    data class Error(val exception: Exception) : ScreenState<Nothing>()
+    val posts = postsInteractor.getPosts()
+        .cachedIn(viewModelScope)
 }
