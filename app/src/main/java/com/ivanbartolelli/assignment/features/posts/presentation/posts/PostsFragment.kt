@@ -35,7 +35,7 @@ class PostsFragment : Fragment() {
 
     private val postsViewModel by viewModels<PostsViewModel>()
 
-    private var postsAdapter: PostsAdapter = PostsAdapter()
+    private var postsAdapter: PostsAdapter = PostsAdapter(::navigateToDetails)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -121,8 +121,6 @@ class PostsFragment : Fragment() {
                     is LoadState.NotLoading -> Unit
                 }
             }
-
-            onPostClick = { navigateToDetails(it) }
         }
 
 
