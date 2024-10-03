@@ -6,10 +6,13 @@
     <string name="text_upvotes">Upvotes</string>
     <string name="text_post_image">Post Image</string>
     <string name="text_by_user">By %1$s</string>
-    <string name="text_unknown_error">An unknown error has happened. Please, refresh and try again.</string>
-    <string name="text_not_connected">You are not connected to internet. Offline mode on!</string>
     <string name="text_retry">retry</string>
     <string name="text_clean_cache">clean cache</string>
-    <string name="text_error">Error: %1$s</string>
-    <string name="text_generic_error">Something went wrong</string>
+
+    <!-- errors -->
+    <string name="text_error_no_internet">No internet connection</string>
+    <string name="text_error_timeout">The response time has been exceeded. Please try again.</string>
+    <string name="text_error_server_unreachable">We are unable to contact the server. Please try again in a few minutes.</string>
+    <string name="text_error_network">It appears that your network has a problem. Please try again in a few minutes.</string>
+    <string name="text_error_unknown">An unknown error has happened. Please, refresh and try again.</string>
 </resources>

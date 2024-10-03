@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.ivanbartolelli.assignment.core.presentation.ScreenState
+import com.ivanbartolelli.assignment.core.presentation.toErrorType
 import com.ivanbartolelli.assignment.features.posts.domain.interactor.PostsInteractor
 import com.ivanbartolelli.assignment.features.posts.domain.models.Post
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +28,7 @@ class PostsViewModel @Inject constructor(private val postsInteractor: PostsInter
 
     private fun fetchPosts() {
         viewModelScope.launch {
+            _screenState.value = ScreenState.Loading
             try {
                 postsInteractor.getPosts()
                     .cachedIn(viewModelScope)
@@ -34,7 +36,7 @@ class PostsViewModel @Inject constructor(private val postsInteractor: PostsInter
                         _screenState.value = ScreenState.Success(pagingData)
                     }
             } catch (e: Exception) {
-                _screenState.value = ScreenState.Error(e)
+                _screenState.value = ScreenState.Error(e.toErrorType())
             }
         }
     }

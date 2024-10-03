@@ -7,6 +7,8 @@ import androidx.paging.LoadState
 import androidx.paging.LoadStateAdapter
 import com.ivanbartolelli.assignment.R
 import com.ivanbartolelli.assignment.core.presentation.BaseViewHolder
+import com.ivanbartolelli.assignment.core.presentation.text
+import com.ivanbartolelli.assignment.core.presentation.toErrorType
 import com.ivanbartolelli.assignment.databinding.PostNetworkStateItemBinding
 
 class PostsLoadStateAdapter(private val postsAdapter: PostsAdapter) :
@@ -42,11 +44,8 @@ class PostsLoadStateAdapter(private val postsAdapter: PostsAdapter) :
                 retryButton.isVisible = item is LoadState.Error
                 errorMsg.apply {
                     isVisible = item is LoadState.Error
-                    text = context.getString(
-                        R.string.text_error,
-                        (item as? LoadState.Error)?.error?.message
-                            ?: context.getString(R.string.text_generic_error)
-                    )
+                    text = (item as? LoadState.Error)?.error?.toErrorType()?.text(context)
+                        ?: context.getString(R.string.text_error_unknown)
                 }
             }
         }

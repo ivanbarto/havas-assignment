@@ -2,6 +2,7 @@ package com.ivanbartolelli.assignment.features.posts.presentation.postDetail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -178,4 +179,11 @@ fun DataContainer(icon: ImageVector, data: String, contentDescription: String) {
             fontWeight = FontWeight.Bold
         )
     }
+}
+
+@Composable
+private fun textColor() = if (isSystemInDarkTheme()) {
+    Color(0xFFFFFFFF)
+} else {
+    Color(0xFF000000)
 }

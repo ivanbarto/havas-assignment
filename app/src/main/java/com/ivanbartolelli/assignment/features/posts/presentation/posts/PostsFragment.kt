@@ -16,8 +16,10 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.VERTICAL
-import com.ivanbartolelli.assignment.R
+import com.ivanbartolelli.assignment.core.presentation.ErrorType
 import com.ivanbartolelli.assignment.core.presentation.ScreenState
+import com.ivanbartolelli.assignment.core.presentation.text
+import com.ivanbartolelli.assignment.core.presentation.toErrorType
 import com.ivanbartolelli.assignment.databinding.PostsFragmentBinding
 import com.ivanbartolelli.assignment.features.posts.domain.models.Post
 import com.ivanbartolelli.assignment.features.posts.presentation.posts.adapters.PostsAdapter
@@ -68,9 +70,7 @@ class PostsFragment : Fragment() {
                         is ScreenState.Success ->
                             showSuccessState(screenState.data)
 
-                        is ScreenState.Error -> showErrorState(
-                            screenState.exception.message ?: getString(R.string.text_generic_error)
-                        )
+                        is ScreenState.Error -> showErrorState(screenState.error)
                     }
                 }
             }
@@ -109,11 +109,15 @@ class PostsFragment : Fragment() {
 
     private fun setupAdapter(): PostsAdapter =
         postsAdapter.apply {
-            viewLifecycleOwner.lifecycleScope.launch {
-                viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    loadStateFlow.collectLatest {
-                        binding.error.container.isVisible = it.refresh is LoadState.Error
-                    }
+            addLoadStateListener { state ->
+                when (state.refresh) {
+                    is LoadState.Error -> showErrorState(
+                        (state.refresh as LoadState.Error).error.toErrorType()
+                    )
+
+                    LoadState.Loading -> showLoadingState()
+
+                    is LoadState.NotLoading -> Unit
                 }
             }
 
@@ -132,10 +136,10 @@ class PostsFragment : Fragment() {
         postsAdapter.submitData(posts)
     }
 
-    private fun showErrorState(errorMessage: String) {
+    private fun showErrorState(error: ErrorType) {
         binding.swipeContainer.isRefreshing = false
         binding.error.container.isVisible = true
-        binding.error.errorMsg.text = errorMessage
+        binding.error.errorMsg.text = error.text(requireContext())
     }
 
 
