@@ -1,5 +1,59 @@
-# reddit
 
+# MVVM Updates
+Previously, PostsViewModel only had a single flow. changing to LiveData could be better? It  might be better for certain scenarios:
+- Lifecycle Awareness: LiveData is lifecycle-aware, meaning it automatically handles UI updates based on the lifecycle of the Activity or Fragment. This reduces the chance of memory leaks and ensures that the UI is only updated when it's in an active state.
+- Industry Standard: LiveData has been a common standard in Android development for a while, and many teams still use it heavily.
+
+BUT I’ve chosen StateFlow and here is a couple of reasons why it might be better:
+- Moderness: StateFlow is more aligned with Kotlin coroutines, which is becoming a more modern approach in Android development.
+- Coroutines spread: the code is based on coroutines, so using StateFlow could be a better match. Using LiveData might feel out of place, especially if everything else is based on reactive coroutines.
+
+I was also wondering if handling screen states instead of just using the loadstates of Paging data is redundant or not because PagingData.LoadState is part of Android's Paging 3 library, and it already has built-in states. Handling screen states separately can seem redundant at first glance, but there are good reasons to manage it:
+- Separation of Concerns: By managing our own ScreenState  we keep control of the entire screen’s state. This is more flexible if the screen has complex interactions
+- Combining Multiple Data Sources: If thr screen has multiple data sources (like posts and profiles or subreddits), we might want to control how the entire screen reacts. The paging library’s loadstate only deals with paginated data, so we need a separate screen state.
+- Explicit UI Control: With a ScreenState, you can explicitly handle scenarios like empty states, errors or retry mechanisms. Paging LoadState works great for lists but is limited in terms of custom error handling, retry logic, or displaying a totally different UI.
+  
+In this assessment, it is redundant because the screen only shows the paginated list, and loading/error states are handled directly in the adapter (using the paging library’s LoadState), but for demo purposes I’ve added the screen state management.
+
+# Memory Leaks Examples
+There are 3 memory leaks examples divided into 2 classes. Let's have a look:
+
+### PostsFragment and MemoryLeakPostFragment
+
+#### Example 1:
+
+![Screenshot from 2024-10-03 11-32-41](https://github.com/user-attachments/assets/ed7a6a80-2f82-43e7-b1bd-401e0e1e788c)
+
+This could potentially lead to a memory leaks because the binding variable is declared as lateinit, but it is never nullified in onDestroyView(). This can lead to a memory leak if the fragment's view is destroyed and recreated (e.g, during configuration changes). If the binding variable is declared as lateinit and is not nullified in onDestroyView(), it retains a reference to the destroyed View. This means the View cannot be garbage collected even if the Fragment itself is no longer in use. To fix it, we need to set this variable as nullable and mark it as null in onDestroyView().
+
+![image](https://github.com/user-attachments/assets/bed38e9b-d806-4807-8896-114812b00a93)
+
+
+#### Example 2:
+
+![image](https://github.com/user-attachments/assets/54a4f6ab-f163-4267-81d1-ec2f962770c8)
+
+While lifecycleScope offers a convenient way to automatically cancel long-running tasks when the Lifecycle reaches the DESTROYED state, collecting a flow without taking care lifecycle states (e.g, if the UI is visible or not) can lead to unncesary computations (which consumes resources because the flow still emits data and it's collected by the fragment) and app crashes (usually our flow is going to provide us with UI data that we need to show, but UI is not visible). We need to collect flow emitions when the lifecycle enters the STARTED state and stop collecting when it transitions to STOPPED.
+In such cases, Lifecycle and LifecycleOwner provide the suspend repeatOnLifecycle API, which allow us to manage these transitions. This ensures that flow emissions are processed only when the UI is visible, which helps conserve resources and can prevent app crashes.
+
+![image](https://github.com/user-attachments/assets/f468f3e2-e9a6-46e7-84a9-bacf71bb74cc)
+
+
+
+
+### PostDetailFragment and MemoryLeakPostDetailFragment
+![image](https://github.com/user-attachments/assets/d70b5472-377f-42e4-aaa3-5e06c658721d)
+
+When Composables hold references to Views or other objects, failing to dispose of them can lead to memory leaks. This is particularly critical in long-lived components (like this fragment) that may be recreated multiple times throughout their lifecycle. Also, if a ComposeView continues to hold references to Composables after the Fragment's View has been destroyed, it may lead to crashes if those Composables attempt to interact with views that are no longer valid.
+
+To fix this, we need to use ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed when creating a ComposeView within a Fragment. This strategy is needed for managing the lifecycle of the Composable content to prevent memory leaks, and ensures that the Composable content associated with the ComposeView is disposed when the view tree lifecycle is destroyed. This is important for managing resources properly and preventing the leaks I mentioned.
+
+![image](https://github.com/user-attachments/assets/aba6ed52-c4f1-4fad-99a1-f21908132ef7)
+
+
+
+
+# Reddit Assessment
 First of all, I want to thank you for this great opportunity! It has been a fun challenge to develop this product.
 I hope you like the end result!
 
