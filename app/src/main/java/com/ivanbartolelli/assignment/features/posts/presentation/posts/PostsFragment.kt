@@ -103,7 +103,7 @@ class PostsFragment : Fragment() {
             setupAdapter()
 
             adapter = postsAdapter.withLoadStateFooter(
-                PostsLoadStateAdapter(postsAdapter)
+                PostsLoadStateAdapter{ postsAdapter.retry() }
             )
         }
     }

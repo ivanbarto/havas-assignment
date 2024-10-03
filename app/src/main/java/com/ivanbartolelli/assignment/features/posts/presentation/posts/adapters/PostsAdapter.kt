@@ -9,9 +9,8 @@ import com.ivanbartolelli.assignment.R
 import com.ivanbartolelli.assignment.core.presentation.BaseViewHolder
 import com.ivanbartolelli.assignment.databinding.PostItemBinding
 import com.ivanbartolelli.assignment.features.posts.domain.models.Post
-import javax.inject.Inject
 
-class PostsAdapter @Inject constructor(val onPostClick: (post: Post) -> Unit) :
+class PostsAdapter(val onPostClick: (post: Post) -> Unit) :
     PagingDataAdapter<Post, BaseViewHolder<Post>>(PostComparator) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<Post> {

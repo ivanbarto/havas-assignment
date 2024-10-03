@@ -11,7 +11,7 @@ import com.ivanbartolelli.assignment.core.presentation.text
 import com.ivanbartolelli.assignment.core.presentation.toErrorType
 import com.ivanbartolelli.assignment.databinding.PostNetworkStateItemBinding
 
-class PostsLoadStateAdapter(private val postsAdapter: PostsAdapter) :
+class PostsLoadStateAdapter(private val retryCallback: () -> Unit) :
     LoadStateAdapter<BaseViewHolder<LoadState>>() {
 
     override fun onCreateViewHolder(
@@ -21,7 +21,7 @@ class PostsLoadStateAdapter(private val postsAdapter: PostsAdapter) :
         val itemBinding =
             PostNetworkStateItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
-        return NetworkStateItemViewHolder(itemBinding) { postsAdapter.retry() }
+        return NetworkStateItemViewHolder(itemBinding, retryCallback)
     }
 
     override fun onBindViewHolder(holder: BaseViewHolder<LoadState>, loadState: LoadState) {
@@ -34,7 +34,7 @@ class PostsLoadStateAdapter(private val postsAdapter: PostsAdapter) :
     ) : BaseViewHolder<LoadState>(itemBinding.root) {
 
         init {
-            itemBinding.retryButton.setOnClickListener { retryCallback() }
+            itemBinding.retryButton.setOnClickListener { retryCallback.invoke() }
         }
 
         override fun bind(item: LoadState) {
