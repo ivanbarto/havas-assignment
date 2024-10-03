@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 
-class PostDetailFragment : Fragment() {
+class MemoryLeakPostDetailFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -19,9 +18,8 @@ class PostDetailFragment : Fragment() {
 
         return arguments?.let { args ->
             ComposeView(requireContext()).apply {
-                setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+                // MEMORY LEAK
                 setContent {
-                    // MEMORY LEAK FIX
                     PostDetailScreen(
                         navController = findNavController(),
                         post = PostDetailFragmentArgs.fromBundle(args).post

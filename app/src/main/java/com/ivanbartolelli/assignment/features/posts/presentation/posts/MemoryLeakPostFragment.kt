@@ -7,9 +7,7 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import androidx.paging.LoadState
 import androidx.paging.PagingData
@@ -25,13 +23,16 @@ import com.ivanbartolelli.assignment.features.posts.domain.models.Post
 import com.ivanbartolelli.assignment.features.posts.presentation.posts.adapters.PostsAdapter
 import com.ivanbartolelli.assignment.features.posts.presentation.posts.adapters.PostsLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class PostsFragment : Fragment() {
+class MemoryLeakPostFragment : Fragment() {
 
-    private var binding: PostsFragmentBinding? = null
+    // MEMORY LEAK 1
+    private lateinit var binding: PostsFragmentBinding
 
     private val postsViewModel by viewModels<PostsViewModel>()
 
@@ -51,12 +52,6 @@ class PostsFragment : Fragment() {
         getPosts()
     }
 
-    // MEMORY LEAK FIX 1
-    override fun onDestroy() {
-        super.onDestroy()
-        binding = null
-    }
-
     private fun setupView() {
         setupRefresh()
         setupRetryButton()
@@ -66,36 +61,36 @@ class PostsFragment : Fragment() {
 
     private fun getPosts() {
         viewLifecycleOwner.lifecycleScope.launch {
-            // MEMORY LEAK FIX 2
-            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-                postsViewModel.screenState.collectLatest { screenState ->
-                    when (screenState) {
-                        is ScreenState.Loading -> showLoadingState()
+            // MEMORY LEAK 2
+            postsViewModel.screenState.collectLatest { screenState ->
+                when (screenState) {
+                    is ScreenState.Loading -> showLoadingState()
 
-                        is ScreenState.Success ->
-                            showSuccessState(screenState.data)
+                    is ScreenState.Success ->
+                        showSuccessState(screenState.data)
 
-                        is ScreenState.Error -> showErrorState(screenState.error)
-                    }
+                    is ScreenState.Error -> showErrorState(screenState.error)
                 }
             }
         }
     }
 
     private fun setupRetryButton() {
-        binding?.error?.retryButton?.setOnClickListener {
+        binding.error.retryButton.setOnClickListener {
             postsAdapter.retry()
         }
     }
 
     private fun setupRefresh() {
-        binding?.swipeContainer?.setOnRefreshListener {
-            postsAdapter.refresh()
+        binding.swipeContainer.setOnRefreshListener {
+            CoroutineScope(Dispatchers.IO).launch {
+                postsAdapter.refresh()
+            }
         }
     }
 
     private fun setupRecyclerView() {
-        binding?.rvRepositories?.apply {
+        binding.rvRepositories.apply {
 
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -127,26 +122,20 @@ class PostsFragment : Fragment() {
 
 
     private fun showLoadingState() {
-        binding?.let { binding ->
-            binding.swipeContainer.isRefreshing = true
-            binding.error.container.isVisible = false
-        }
+        binding.swipeContainer.isRefreshing = true
+        binding.error.container.isVisible = false
     }
 
     private suspend fun showSuccessState(posts: PagingData<Post>) {
-        binding?.let { binding ->
-            binding.swipeContainer.isRefreshing = false
-            binding.error.container.isVisible = false
-        }
+        binding.swipeContainer.isRefreshing = false
+        binding.error.container.isVisible = false
         postsAdapter.submitData(posts)
     }
 
     private fun showErrorState(error: ErrorType) {
-        binding?.let { binding ->
-            binding.swipeContainer.isRefreshing = false
-            binding.error.container.isVisible = true
-            binding.error.errorMsg.text = error.text(requireContext())
-        }
+        binding.swipeContainer.isRefreshing = false
+        binding.error.container.isVisible = true
+        binding.error.errorMsg.text = error.text(requireContext())
     }
 
 
