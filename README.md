@@ -1,6 +1,6 @@
 
 # MVVM Updates
-Previously, `PostsViewModel` only had a single flow. changing to `LiveData` could be better? It  might be better for certain scenarios:
+Previously, `PostsViewModel` only had a single flow. Changing to `LiveData` could be better? It  might be better for certain scenarios:
 - Lifecycle Awareness: LiveData is lifecycle-aware, meaning it automatically handles UI updates based on the lifecycle of the Activity or Fragment. This reduces the chance of memory leaks and ensures that the UI is only updated when it's in an active state.
 - Industry Standard: LiveData has been a common standard in Android development.
 
@@ -15,9 +15,7 @@ I was also wondering if handling screen states instead of just using the loadsta
   
 In this assessment, it is redundant because the screen only shows the paginated list, and loading/error states are handled directly in the adapter (using the paging library’s LoadState), but for demo purposes I’ve added the screen state management.
 
-An Interactor was added to separate concerns even more.
-
-I've also changed how the Composable view is used (removing the `XML layout` and using `ComposeView` directly)
+An Interactor was added to separate concerns even more. I've also changed how the Composable view is used (removing the `XML layout` and using `ComposeView` directly). Some general improvements were made as well.
 
 # Memory Leaks Examples
 There are 3 memory leaks examples divided into 2 classes. Let's have a look:
