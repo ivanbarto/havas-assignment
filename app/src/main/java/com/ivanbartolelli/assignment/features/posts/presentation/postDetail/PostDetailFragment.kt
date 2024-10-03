@@ -12,26 +12,27 @@ import com.ivanbartolelli.assignment.features.posts.domain.models.Post
 
 class PostDetailFragment : Fragment() {
 
-    lateinit var post: Post
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
 
-        arguments?.let {
-            post = PostDetailFragmentArgs.fromBundle(it).post
-        }
-
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                PostDetailScreen(
-                    navController = findNavController(),
-                    post = post
-                )
+        return arguments?.let { args ->
+            ComposeView(requireContext()).apply {
+                setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+                setContent {
+                    PostDetailScreen(
+                        navController = findNavController(),
+                        post = PostDetailFragmentArgs.fromBundle(args).post
+                    )
+                }
             }
-        }
+        } ?: handleNullArguments()
+    }
+
+    private fun handleNullArguments(): View {
+        findNavController().popBackStack()
+        return View(requireContext())
     }
 }

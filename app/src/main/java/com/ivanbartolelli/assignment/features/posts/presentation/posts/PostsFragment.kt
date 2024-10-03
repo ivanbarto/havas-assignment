@@ -25,15 +25,13 @@ import com.ivanbartolelli.assignment.features.posts.domain.models.Post
 import com.ivanbartolelli.assignment.features.posts.presentation.posts.adapters.PostsAdapter
 import com.ivanbartolelli.assignment.features.posts.presentation.posts.adapters.PostsLoadStateAdapter
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class PostsFragment : Fragment() {
 
-    private lateinit var binding: PostsFragmentBinding
+    private var binding: PostsFragmentBinding? = null
 
     private val postsViewModel by viewModels<PostsViewModel>()
 
@@ -51,6 +49,11 @@ class PostsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupView()
         getPosts()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding = null
     }
 
     private fun setupView() {
@@ -78,21 +81,19 @@ class PostsFragment : Fragment() {
     }
 
     private fun setupRetryButton() {
-        binding.error.retryButton.setOnClickListener {
+        binding?.error?.retryButton?.setOnClickListener {
             postsAdapter.retry()
         }
     }
 
     private fun setupRefresh() {
-        binding.swipeContainer.setOnRefreshListener {
-            CoroutineScope(Dispatchers.IO).launch {
-                postsAdapter.refresh()
-            }
+        binding?.swipeContainer?.setOnRefreshListener {
+            postsAdapter.refresh()
         }
     }
 
     private fun setupRecyclerView() {
-        binding.rvRepositories.apply {
+        binding?.rvRepositories?.apply {
 
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
@@ -126,20 +127,26 @@ class PostsFragment : Fragment() {
 
 
     private fun showLoadingState() {
-        binding.swipeContainer.isRefreshing = true
-        binding.error.container.isVisible = false
+        binding?.let { binding ->
+            binding.swipeContainer.isRefreshing = true
+            binding.error.container.isVisible = false
+        }
     }
 
     private suspend fun showSuccessState(posts: PagingData<Post>) {
-        binding.swipeContainer.isRefreshing = false
-        binding.error.container.isVisible = false
+        binding?.let { binding ->
+            binding.swipeContainer.isRefreshing = false
+            binding.error.container.isVisible = false
+        }
         postsAdapter.submitData(posts)
     }
 
     private fun showErrorState(error: ErrorType) {
-        binding.swipeContainer.isRefreshing = false
-        binding.error.container.isVisible = true
-        binding.error.errorMsg.text = error.text(requireContext())
+        binding?.let { binding ->
+            binding.swipeContainer.isRefreshing = false
+            binding.error.container.isVisible = true
+            binding.error.errorMsg.text = error.text(requireContext())
+        }
     }
 
 
