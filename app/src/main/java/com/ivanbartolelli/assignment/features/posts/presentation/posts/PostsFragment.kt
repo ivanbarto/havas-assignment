@@ -120,7 +120,12 @@ class PostsFragment : Fragment() {
 
                     LoadState.Loading -> showLoadingState()
 
-                    is LoadState.NotLoading -> Unit
+                    is LoadState.NotLoading -> {
+                        binding?.let { binding ->
+                            binding.tvEmpty.isVisible = postsAdapter.isEmpty()
+                            binding.rvRepositories.isVisible = postsAdapter.isEmpty().not()
+                        }
+                    }
                 }
             }
         }

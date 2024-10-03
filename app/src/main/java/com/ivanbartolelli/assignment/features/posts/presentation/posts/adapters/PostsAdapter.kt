@@ -36,6 +36,8 @@ class PostsAdapter(val onPostClick: (post: Post) -> Unit) :
         getItem(position)?.let { holder.bind(it) }
     }
 
+    fun isEmpty(): Boolean = itemCount == 0
+
     inner class RepositoryViewHolder(private val itemBinding: PostItemBinding) :
         BaseViewHolder<Post>(itemBinding.root) {
 

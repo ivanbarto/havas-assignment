@@ -8,6 +8,7 @@
     <string name="text_by_user">By %1$s</string>
     <string name="text_retry">retry</string>
     <string name="text_clean_cache">clean cache</string>
+    <string name="text_no_posts_found">No Posts found</string>
 
     <!-- errors -->
     <string name="text_error_no_internet">No internet connection</string>
