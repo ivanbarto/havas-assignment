@@ -19,9 +19,9 @@ class PostDetailFragment : Fragment() {
 
         return arguments?.let { args ->
             ComposeView(requireContext()).apply {
+                // MEMORY LEAK FIX
                 setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
                 setContent {
-                    // MEMORY LEAK FIX
                     PostDetailScreen(
                         navController = findNavController(),
                         post = PostDetailFragmentArgs.fromBundle(args).post
